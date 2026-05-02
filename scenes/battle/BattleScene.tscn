@@ -25,6 +25,7 @@ color = Color(0.878431, 0.972549, 0.815686, 1)
 unique_name_in_owner = true
 offset_right = 160.0
 offset_bottom = 48.0
+clip_contents = true
 script = ExtResource("2")
 
 [node name="EnemyList" type="HBoxContainer" parent="EnemyArea"]
@@ -47,6 +48,7 @@ unique_name_in_owner = true
 offset_top = 48.0
 offset_right = 80.0
 offset_bottom = 96.0
+clip_contents = true
 script = ExtResource("2")
 
 [node name="AllyList" type="VBoxContainer" parent="PartyStatus"]
@@ -69,6 +71,7 @@ offset_left = 80.0
 offset_top = 48.0
 offset_right = 160.0
 offset_bottom = 96.0
+clip_contents = true
 script = ExtResource("2")
 
 [node name="EnemyInfoLabel" type="Label" parent="EnemyInfo"]
@@ -84,7 +87,8 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "敵情報"
-vertical_alignment = 1
+vertical_alignment = 0
+autowrap_mode = 2
 
 [node name="CommandWindow" type="NinePatchRect" parent="."]
 unique_name_in_owner = true
@@ -92,6 +96,7 @@ offset_left = 112.0
 offset_top = 64.0
 offset_right = 160.0
 offset_bottom = 96.0
+clip_contents = true
 script = ExtResource("2")
 
 [node name="CommandList" type="VBoxContainer" parent="CommandWindow"]
@@ -147,6 +152,7 @@ unique_name_in_owner = true
 offset_top = 104.0
 offset_right = 160.0
 offset_bottom = 144.0
+clip_contents = true
 script = ExtResource("2")
 
 [node name="LogLabel" type="RichTextLabel" parent="MessageWindow"]
@@ -163,3 +169,4 @@ grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = false
 scroll_following = true
+scroll_active = false

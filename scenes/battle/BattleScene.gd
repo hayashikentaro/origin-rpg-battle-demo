@@ -1,8 +1,11 @@
 extends Control
 
 const BattleController = preload("res://scripts/frontend/battle_controller.gd")
+const GbHpBar = preload("res://scripts/frontend/gb_hp_bar.gd")
 const GbSprite = preload("res://scripts/frontend/gb_sprite.gd")
 
+const INTERNAL_SIZE := Vector2(160, 144)
+const DISPLAY_SCALE := 4.0
 const BG_COLOR := Color("E0F8D0")
 const LIGHT_COLOR := Color("A0C0A0")
 const MID_COLOR := Color("607860")
@@ -24,6 +27,11 @@ var controller := BattleController.new()
 
 
 func _ready() -> void:
+	custom_minimum_size = INTERNAL_SIZE
+	set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	size = INTERNAL_SIZE
+	scale = Vector2(DISPLAY_SCALE, DISPLAY_SCALE)
+	_layout_root()
 	_apply_palette()
 	attack_button.pressed.connect(_on_attack_pressed)
 	ability_button.pressed.connect(_on_ability_pressed)
@@ -32,6 +40,17 @@ func _ready() -> void:
 	eat_meat_button.pressed.connect(_on_eat_meat_pressed)
 	ability_list.item_selected.connect(_on_ability_selected)
 	_refresh_ui()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED:
+		_layout_root()
+
+
+func _layout_root() -> void:
+	var viewport_size := get_viewport_rect().size
+	var scaled_size := INTERNAL_SIZE * DISPLAY_SCALE
+	position = (viewport_size - scaled_size) * 0.5
 
 
 func _apply_palette() -> void:
@@ -48,10 +67,10 @@ func _style_labels(node: Node) -> void:
 	for child in node.get_children():
 		if child is Label:
 			child.add_theme_color_override("font_color", DARK_COLOR)
-			child.add_theme_font_size_override("font_size", 8)
+			child.add_theme_font_size_override("font_size", 6)
 		elif child is RichTextLabel:
 			child.add_theme_color_override("default_color", DARK_COLOR)
-			child.add_theme_font_size_override("normal_font_size", 8)
+			child.add_theme_font_size_override("normal_font_size", 6)
 		_style_labels(child)
 
 
@@ -61,7 +80,8 @@ func _style_command_buttons() -> void:
 		button.focus_mode = Control.FOCUS_NONE
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.add_theme_color_override("font_color", DARK_COLOR)
-		button.add_theme_font_size_override("font_size", 8)
+		button.add_theme_font_size_override("font_size", 6)
+		button.custom_minimum_size = Vector2(0, 6)
 		var normal := StyleBoxEmpty.new()
 		var hover := StyleBoxFlat.new()
 		hover.bg_color = LIGHT_COLOR
@@ -89,34 +109,23 @@ func _refresh_ui() -> void:
 			defend_button.visible = not actor.is_empty()
 			ability_button.visible = not actor.is_empty() and controller.can_use_ability(actor)
 			next_button.visible = actor.is_empty()
-			next_button.text = "▶ つぎへ"
+			next_button.text = "▶つぎへ"
 			eat_meat_button.visible = false
-			if not actor.is_empty():
-				enemy_info_label.text = "%s\n%s\nHP %d/%d" % [
-					actor.get("name", ""),
-					_race_label(actor.get("race", "")),
-					actor.get("hp", 0),
-					actor.get("maxHp", 0),
-				]
-			else:
-				enemy_info_label.text = prompt
 		"victory_meat":
 			attack_button.visible = false
 			ability_button.visible = false
 			defend_button.visible = false
 			next_button.visible = true
-			next_button.text = "▶ みおくる"
+			next_button.text = "▶みおくる"
 			eat_meat_button.visible = controller.can_eat_meat()
-			eat_meat_button.text = "▶ %s" % controller.get_pending_meat_label()
-			enemy_info_label.text = prompt
+			eat_meat_button.text = "▶%s" % controller.get_pending_meat_label()
 		"victory_done", "defeat", "finished":
 			attack_button.visible = false
 			ability_button.visible = false
 			defend_button.visible = false
 			next_button.visible = true
-			next_button.text = "▶ つぎへ"
+			next_button.text = "▶つぎへ"
 			eat_meat_button.visible = false
-			enemy_info_label.text = prompt
 
 	ability_list.visible = false
 
@@ -135,8 +144,8 @@ func _make_enemy_sprite(unit: Dictionary) -> Control:
 	box.add_theme_constant_override("separation", 0)
 
 	var sprite := GbSprite.new()
-	sprite.setup(_sprite_id_for_unit(unit), 4)
-	sprite.custom_minimum_size = Vector2(32, 32)
+	sprite.setup(_sprite_id_for_unit(unit), 3)
+	sprite.custom_minimum_size = Vector2(28, 28)
 	box.add_child(sprite)
 	return box
 
@@ -150,46 +159,34 @@ func _refresh_party_status() -> void:
 
 func _make_party_row(unit: Dictionary) -> Control:
 	var row := HBoxContainer.new()
-	row.custom_minimum_size = Vector2(68, 10)
-	row.add_theme_constant_override("separation", 4)
+	row.custom_minimum_size = Vector2(68, 8)
+	row.add_theme_constant_override("separation", 2)
+	row.clip_contents = true
 
 	var icon := GbSprite.new()
 	icon.setup(_sprite_id_for_unit(unit), 1)
-	icon.custom_minimum_size = Vector2(10, 10)
+	icon.custom_minimum_size = Vector2(8, 8)
 	row.add_child(icon)
 
-	var text_box := VBoxContainer.new()
-	text_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text_box.add_theme_constant_override("separation", 0)
-
 	var name_label := Label.new()
-	name_label.text = "%s" % unit.get("name", "")
+	name_label.text = unit.get("name", "")
 	name_label.add_theme_color_override("font_color", DARK_COLOR)
-	name_label.add_theme_font_size_override("font_size", 8)
-	text_box.add_child(name_label)
-
-	var hp_row := HBoxContainer.new()
-	hp_row.add_theme_constant_override("separation", 2)
+	name_label.add_theme_font_size_override("font_size", 6)
+	name_label.custom_minimum_size = Vector2(22, 8)
+	row.add_child(name_label)
 
 	var hp_label := Label.new()
 	hp_label.text = "%d/%d" % [unit.get("hp", 0), unit.get("maxHp", 0)]
 	hp_label.add_theme_color_override("font_color", DARK_COLOR)
-	hp_label.add_theme_font_size_override("font_size", 8)
-	hp_row.add_child(hp_label)
+	hp_label.add_theme_font_size_override("font_size", 6)
+	hp_label.custom_minimum_size = Vector2(20, 8)
+	row.add_child(hp_label)
 
-	var bar_bg := ColorRect.new()
-	bar_bg.color = LIGHT_COLOR
-	bar_bg.custom_minimum_size = Vector2(24, 6)
-	var bar_fill := ColorRect.new()
-	bar_fill.color = DARK_COLOR
 	var max_hp: float = max(1.0, float(unit.get("maxHp", 1)))
 	var ratio: float = clampf(float(unit.get("hp", 0)) / max_hp, 0.0, 1.0)
-	bar_fill.custom_minimum_size = Vector2(max(1.0, floor(24.0 * ratio)), 6)
-	bar_bg.add_child(bar_fill)
-	hp_row.add_child(bar_bg)
-	text_box.add_child(hp_row)
-
-	row.add_child(text_box)
+	var hp_bar := GbHpBar.new()
+	hp_bar.setup(ratio, 16.0, 4.0)
+	row.add_child(hp_bar)
 	row.modulate = Color.WHITE if unit.get("isAlive", false) else Color(0.7, 0.75, 0.7)
 	return row
 
@@ -202,16 +199,25 @@ func _refresh_enemy_info() -> void:
 	for enemy in controller.get_enemy_members():
 		if enemy.get("isAlive", false):
 			count += 1
-	enemy_info_label.text = "%s\n%d匹\n状態: 正常" % [first_alive.get("name", ""), count]
+	var state := controller.get_state()
+	var actor := controller.get_current_actor()
+	var lines: Array[String] = []
+	lines.append("%s %d匹" % [first_alive.get("name", ""), count])
+	lines.append("状態: 正常")
+	if state == "command" and not actor.is_empty():
+		lines.append("%s %s" % [actor.get("name", ""), _race_label(actor.get("race", ""))])
+		lines.append("HP %d/%d" % [actor.get("hp", 0), actor.get("maxHp", 0)])
+	else:
+		lines.append(controller.get_status_summary())
+	enemy_info_label.text = "\n".join(lines)
 
 
 func _refresh_log() -> void:
 	log_label.clear()
 	var logs := controller.get_battle_log()
-	var start_index := maxi(0, logs.size() - 2)
+	var start_index := maxi(0, logs.size() - 1)
 	for index in range(start_index, logs.size()):
 		log_label.append_text(logs[index] + "\n")
-	log_label.scroll_to_line(log_label.get_line_count())
 
 
 func _first_alive_enemy() -> Dictionary:

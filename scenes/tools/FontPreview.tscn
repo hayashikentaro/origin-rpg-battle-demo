@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://k2wsab6g5k2vo"]
+
+[ext_resource type="Script" path="res://scenes/tools/FontPreview.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/tools/gb_bitmap_text.gd" id="2"]
+
+[node name="FontPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.878431, 0.972549, 0.815686, 1)
+
+[node name="PreviewText" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 520.0
+offset_bottom = 440.0
+script = ExtResource("2")
+content = ""
+pixel_scale = 4
+line_spacing = 0

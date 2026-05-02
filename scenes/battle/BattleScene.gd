@@ -5,11 +5,12 @@ const GbHpBar = preload("res://scripts/frontend/gb_hp_bar.gd")
 const GbSprite = preload("res://scripts/frontend/gb_sprite.gd")
 
 const INTERNAL_SIZE := Vector2(160, 144)
-const DISPLAY_SCALE := 4.0
+const DISPLAY_SCALE := 8.0
 const BG_COLOR := Color("E0F8D0")
 const LIGHT_COLOR := Color("A0C0A0")
 const MID_COLOR := Color("607860")
 const DARK_COLOR := Color("203820")
+const MONACO_FONT_PATH := "/System/Library/Fonts/Monaco.ttf"
 
 @onready var enemy_list: HBoxContainer = %EnemyList
 @onready var ally_list: VBoxContainer = %AllyList
@@ -55,12 +56,28 @@ func _layout_root() -> void:
 
 func _apply_palette() -> void:
 	background.color = BG_COLOR
+	_apply_pixel_font()
 	_style_labels(self)
 	_style_command_buttons()
 	ability_list.add_theme_color_override("font_color", DARK_COLOR)
 	ability_list.add_theme_color_override("font_selected_color", BG_COLOR)
 	ability_list.add_theme_color_override("guide_color", LIGHT_COLOR)
 	ability_list.custom_minimum_size = Vector2(80, 48)
+
+
+func _apply_pixel_font() -> void:
+	if not FileAccess.file_exists(MONACO_FONT_PATH):
+		return
+	var font := SystemFont.new()
+	font.font_names = PackedStringArray(["Monaco"])
+	font.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+	font.hinting = TextServer.HINTING_NONE
+	font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+	font.oversampling = 1.0
+	var local_theme := Theme.new()
+	local_theme.default_font = font
+	local_theme.default_font_size = 6
+	theme = local_theme
 
 
 func _style_labels(node: Node) -> void:

@@ -90,11 +90,6 @@ const SPRITES := {
 	],
 }
 
-
-func _ready() -> void:
-	custom_minimum_size = Vector2(64, 64)
-
-
 func setup(new_sprite_id: String, new_scale: int = 4) -> void:
 	sprite_id = new_sprite_id
 	scale_factor = new_scale

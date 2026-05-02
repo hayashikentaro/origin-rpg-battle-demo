@@ -6,10 +6,17 @@ run/main_scene="res://scenes/battle/BattleScene.tscn"
 config/features=PackedStringArray("4.0")
 
 [display]
-window/size/viewport_width=640
-window/size/viewport_height=576
+window/size/viewport_width=1280
+window/size/viewport_height=1152
+window/size/resizable=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
 [rendering]
 renderer/rendering_method="mobile"
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_vertices_to_pixel=true
+2d/snap/snap_2d_transforms_to_pixel=true
+
+[gui]
+common/snap_controls_to_pixels=true

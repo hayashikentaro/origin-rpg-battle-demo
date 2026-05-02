@@ -1,22 +1,33 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
+
 config/name="オリジナルRPGバトルデモ"
 run/main_scene="res://scenes/battle/BattleScene.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.6")
 
 [display]
+
 window/size/viewport_width=1280
 window/size/viewport_height=1152
 window/size/resizable=false
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
 
 [rendering]
-renderer/rendering_method="mobile"
-textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_vertices_to_pixel=true
-2d/snap/snap_2d_transforms_to_pixel=true
 
-[gui]
-common/snap_controls_to_pixels=true
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

@@ -1,0 +1,53 @@
+{
+  "data_rng": {
+    "bank": 15,
+    "addr": "0x4000",
+    "rom_offset": "0x3c000",
+    "size": 256,
+    "is_permutation_0_to_255": true,
+    "notes": [
+      "Contains each byte value 0x00-0xFF exactly once",
+      "Likely a lookup/permutation table rather than direct RNG state constants"
+    ]
+  },
+  "data_growth_table": {
+    "bank": 12,
+    "addr": "0x7fb0",
+    "rom_offset": "0x33fb0",
+    "size": 32,
+    "raw_hex": [
+      "07","0F","17","1F","27","2F","37","3F",
+      "47","4F","57","5F","67","6F","77","7F",
+      "87","8F","97","9F","A7","AF","B7","BF",
+      "C7","CF","D7","DF","E7","EF","F7","FF"
+    ],
+    "pattern": "value[n] = ((n + 1) * 8) - 1"
+  },
+  "data_ability_learning_thresholds": {
+    "bank": 12,
+    "addr": "0x7fd0",
+    "rom_offset": "0x33fd0",
+    "size": 32,
+    "raw_hex_pairs": [
+      ["99","E4"],["B7","E9"],["B6","ED"],["B5","E6"],
+      ["D5","F0"],["DD","F1"],["B4","F2"],["D0","E3"],
+      ["C4","EF"],["DE","F4"],["D1","EB"],["D2","F3"],
+      ["95","EA"],["BD","E7"],["9D","FE"],["DC","F5"]
+    ],
+    "notes": [
+      "Does not behave like a monotonic threshold table",
+      "Looks more like 16 pairs of learnable ability/special ids"
+    ]
+  },
+  "data_ability_learning_results": {
+    "bank": 12,
+    "addr": "0x7ff0",
+    "rom_offset": "0x33ff0",
+    "size": 16,
+    "raw_hex": ["3F","42","0F","00","00","00","00","00","00","00","00","00","00","00","00","00"],
+    "notes": [
+      "Only 16 bytes long because it sits at bank end",
+      "Needs relabeling or code-reference validation before semantic use"
+    ]
+  }
+}

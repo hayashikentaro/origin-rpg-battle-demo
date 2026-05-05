@@ -291,11 +291,11 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
     candidate
       ? `candidate rng 07/08 => offset=${candidate.offset}`
       : "candidate rng skipped",
-    `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning} route=${postBranchRoute}`,
-    `route target source=${routedTarget.source} => ${routedTarget.target}`,
     combatDecision
       ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
-      : "combat hook skipped"
+      : `combat hook skipped route=${postBranchRoute}`,
+    `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning}`,
+    `route target source=${routedTarget.source} => ${routedTarget.target}`
   ];
 
   return {

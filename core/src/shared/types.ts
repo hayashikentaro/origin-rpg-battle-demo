@@ -27,6 +27,7 @@ export interface CombatDecision {
 export interface ActorResolveResult {
   actorIndex: number;
   branch: number;
+  postBranchRoute: number;
   localPath: number;
   target: number;
   targetSource: "explicit" | "candidate" | "slotIndex";

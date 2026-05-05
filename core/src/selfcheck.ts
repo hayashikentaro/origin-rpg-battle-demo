@@ -29,6 +29,7 @@ function runResolveActorCommandChecks(): void {
   assert(attack.combatDecision?.accepted === false, "attack accepted mismatch");
   assert(attack.combatDecision?.branch === 0, `attack combat branch mismatch: ${attack.combatDecision?.branch}`);
   assert(attack.combatDecision?.branchVariant === undefined, "attack branchVariant should be undefined");
+  assert(attack.postBranchRoute === 0, `attack postBranchRoute mismatch: ${attack.postBranchRoute}`);
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 5, "attack debugTrace shape mismatch");
 
   const defend = resolveActorCommand({
@@ -67,10 +68,12 @@ function runResolveActorCommandChecks(): void {
   );
   assert(pointerProbe.combatDecision?.accepted === false, "pointerProbe accepted mismatch");
   assert(pointerProbe.combatDecision?.branch === 0, `pointerProbe combat branch mismatch: ${pointerProbe.combatDecision?.branch}`);
+  const expectedPointerVariant = (((Number(pointerProbe.candidateOffset) >> 8) ^ Number(pointerProbe.candidateOffset)) & 0x01);
   assert(
-    pointerProbe.combatDecision?.branchVariant === 0,
+    pointerProbe.combatDecision?.branchVariant === expectedPointerVariant,
     `pointerProbe branchVariant mismatch: ${pointerProbe.combatDecision?.branchVariant}`
   );
+  assert(pointerProbe.postBranchRoute === expectedPointerVariant, `pointerProbe postBranchRoute mismatch: ${pointerProbe.postBranchRoute}`);
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
 

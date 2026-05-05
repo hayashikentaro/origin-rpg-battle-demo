@@ -267,6 +267,7 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 	if result.is_empty():
 		return "DBG --"
 	var branch := str(result.get("branch", "--"))
+	var post_branch_route := str(result.get("postBranchRoute", "--"))
 	var local_path := str(result.get("localPath", "--"))
 	var target := str(result.get("target", "--"))
 	var used_candidate_rng := "Y" if bool(result.get("didConsumeCandidateRng", false)) else "N"
@@ -282,8 +283,9 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 		accepted = "Y" if bool(combat_decision.get("accepted", false)) else "N"
 	decision_branch = str(combat_decision.get("branch", "--"))
 	decision_variant = str(combat_decision.get("branchVariant", "--"))
-	return "DBG b:%s p:%s t:%s\nk:%s a:%s s:%s c07:%s acc:%s cb:%s cv:%s" % [
+	return "DBG b:%s r:%s p:%s t:%s\nk:%s a:%s s:%s c07:%s acc:%s cb:%s cv:%s" % [
 		branch,
+		post_branch_route,
 		local_path,
 		target,
 		kind_id,
@@ -300,6 +302,7 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	if result.is_empty():
 		return "%s --" % label
 	var branch := str(result.get("branch", "--"))
+	var post_branch_route := str(result.get("postBranchRoute", "--"))
 	var local_path := str(result.get("localPath", "--"))
 	var target := str(result.get("target", "--"))
 	var target_source := str(result.get("targetSource", "--"))
@@ -319,9 +322,10 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	decision_variant = str(combat_decision.get("branchVariant", "--"))
 	decision_source = str(combat_decision.get("debugSource", "--"))
 	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
-	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s/%s/%s" % [
+	return "%s b:%s r:%s p:%s a:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s/%s/%s" % [
 		label,
 		branch,
+		post_branch_route,
 		local_path,
 		arg,
 		target,
@@ -341,6 +345,7 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var result: Dictionary = preview.get("result", {})
 	if result.is_empty():
 		return "%s --" % label
+	var post_branch_route := str(result.get("postBranchRoute", "--"))
 	var local_path := str(result.get("localPath", "--"))
 	var target := str(result.get("target", "--"))
 	var target_source := str(result.get("targetSource", "--"))
@@ -356,11 +361,12 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var decision_variant := str(combat_decision.get("branchVariant", "--"))
 	var decision_source := str(combat_decision.get("debugSource", "--"))
 	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
-	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s src:%s/%s" % [
+	return "%s k:%s a:%s s:%s r:%s p:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s src:%s/%s" % [
 		label,
 		kind_id,
 		arg,
 		slot_index,
+		post_branch_route,
 		local_path,
 		target,
 		target_source,

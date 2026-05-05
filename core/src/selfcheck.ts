@@ -26,6 +26,9 @@ function runResolveActorCommandChecks(): void {
     attack.combatDecision?.pendingMeaning === "special_candidate_local_accept_policy",
     `attack pendingMeaning mismatch: ${attack.combatDecision?.pendingMeaning}`
   );
+  assert(attack.combatDecision?.accepted === false, "attack accepted mismatch");
+  assert(attack.combatDecision?.branch === 0, `attack combat branch mismatch: ${attack.combatDecision?.branch}`);
+  assert(attack.combatDecision?.branchVariant === undefined, "attack branchVariant should be undefined");
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 5, "attack debugTrace shape mismatch");
 
   const defend = resolveActorCommand({
@@ -61,6 +64,12 @@ function runResolveActorCommandChecks(): void {
   assert(
     pointerProbe.combatDecision?.pendingMeaning === "special_candidate_candidate_accept_policy",
     `pointerProbe pendingMeaning mismatch: ${pointerProbe.combatDecision?.pendingMeaning}`
+  );
+  assert(pointerProbe.combatDecision?.accepted === false, "pointerProbe accepted mismatch");
+  assert(pointerProbe.combatDecision?.branch === 0, `pointerProbe combat branch mismatch: ${pointerProbe.combatDecision?.branch}`);
+  assert(
+    pointerProbe.combatDecision?.branchVariant === 0,
+    `pointerProbe branchVariant mismatch: ${pointerProbe.combatDecision?.branchVariant}`
   );
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");

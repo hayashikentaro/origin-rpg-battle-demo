@@ -16,7 +16,9 @@ export interface BattleCommandInput {
 }
 
 export interface CombatDecision {
-  shouldConsumeCounter: boolean;
+  accepted: boolean;
+  branch: number;
+  branchVariant?: 0 | 1;
   debugSource?: "unresolved_local_policy";
   pendingWindow?: "41E7-41E9 -> 41EB-41EC";
   pendingMeaning?: "special_candidate_local_accept_policy" | "special_candidate_candidate_accept_policy";

@@ -275,10 +275,14 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 	var arg := str(action.get("arg", "--"))
 	var slot_index := str(action.get("slotIndex", "--"))
 	var combat_decision: Dictionary = result.get("combatDecision", {})
-	var consume_counter := "--"
-	if combat_decision is Dictionary and combat_decision.has("shouldConsumeCounter"):
-		consume_counter = "Y" if bool(combat_decision.get("shouldConsumeCounter", false)) else "N"
-	return "DBG b:%s p:%s t:%s\nk:%s a:%s s:%s c07:%s cc:%s" % [
+	var accepted := "--"
+	var decision_branch := "--"
+	var decision_variant := "--"
+	if combat_decision is Dictionary and combat_decision.has("accepted"):
+		accepted = "Y" if bool(combat_decision.get("accepted", false)) else "N"
+	decision_branch = str(combat_decision.get("branch", "--"))
+	decision_variant = str(combat_decision.get("branchVariant", "--"))
+	return "DBG b:%s p:%s t:%s\nk:%s a:%s s:%s c07:%s acc:%s cb:%s cv:%s" % [
 		branch,
 		local_path,
 		target,
@@ -286,7 +290,9 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 		arg,
 		slot_index,
 		used_candidate_rng,
-		consume_counter,
+		accepted,
+		decision_branch,
+		decision_variant,
 	]
 
 
@@ -302,14 +308,18 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	var action: Dictionary = result.get("action", {})
 	var arg := str(action.get("arg", "--"))
 	var combat_decision: Dictionary = result.get("combatDecision", {})
-	var consume_counter := "--"
+	var accepted := "--"
+	var decision_branch := "--"
+	var decision_variant := "--"
 	var decision_source := "--"
 	var decision_meaning := "--"
-	if combat_decision is Dictionary and combat_decision.has("shouldConsumeCounter"):
-		consume_counter = "Y" if bool(combat_decision.get("shouldConsumeCounter", false)) else "N"
+	if combat_decision is Dictionary and combat_decision.has("accepted"):
+		accepted = "Y" if bool(combat_decision.get("accepted", false)) else "N"
+	decision_branch = str(combat_decision.get("branch", "--"))
+	decision_variant = str(combat_decision.get("branchVariant", "--"))
 	decision_source = str(combat_decision.get("debugSource", "--"))
 	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
-	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s cc:%s/%s/%s" % [
+	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s/%s/%s" % [
 		label,
 		branch,
 		local_path,
@@ -318,7 +328,9 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 		target_source,
 		used_candidate_rng,
 		candidate_offset,
-		consume_counter,
+		accepted,
+		decision_branch,
+		decision_variant,
 		decision_source,
 		decision_meaning,
 	]
@@ -339,9 +351,12 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var arg := str(action.get("arg", "--"))
 	var slot_index := str(action.get("slotIndex", "--"))
 	var combat_decision: Dictionary = result.get("combatDecision", {})
+	var accepted := str(combat_decision.get("accepted", "--"))
+	var decision_branch := str(combat_decision.get("branch", "--"))
+	var decision_variant := str(combat_decision.get("branchVariant", "--"))
 	var decision_source := str(combat_decision.get("debugSource", "--"))
 	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
-	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s src:%s/%s" % [
+	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s acc:%s cb:%s cv:%s src:%s/%s" % [
 		label,
 		kind_id,
 		arg,
@@ -351,6 +366,9 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 		target_source,
 		used_candidate_rng,
 		candidate_offset,
+		accepted,
+		decision_branch,
+		decision_variant,
 		decision_source,
 		decision_meaning,
 	]

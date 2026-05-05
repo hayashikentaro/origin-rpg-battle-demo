@@ -141,11 +141,14 @@ function routeTarget(target: number, slotIndex: number, candidate: { offset: num
 }
 
 function resolveCombatRngAfterLocalPath(localPath: number): CombatDecision | undefined {
+  const candidatePath = pathNeedsCandidateSelection(localPath);
   return {
-    shouldConsumeCounter: false,
+    accepted: false,
+    branch: 0,
+    branchVariant: candidatePath ? ((localPath >> 1) & 0x01) as 0 | 1 : undefined,
     debugSource: "unresolved_local_policy",
     pendingWindow: "41E7-41E9 -> 41EB-41EC",
-    pendingMeaning: pathNeedsCandidateSelection(localPath)
+    pendingMeaning: candidatePath
       ? "special_candidate_candidate_accept_policy"
       : "special_candidate_local_accept_policy"
   };
@@ -235,7 +238,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
       : "candidate rng skipped",
     `route target source=${routedTarget.source} => ${routedTarget.target}`,
     combatDecision
-      ? `combat hook consume=${combatDecision.shouldConsumeCounter} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
+      ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch} variant=${combatDecision.branchVariant ?? "--"} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
       : "combat hook skipped"
   ];
 

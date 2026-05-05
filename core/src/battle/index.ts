@@ -145,7 +145,9 @@ function resolveCombatRngAfterLocalPath(localPath: number): CombatDecision | und
     shouldConsumeCounter: false,
     debugSource: "unresolved_local_policy",
     pendingWindow: "41E7-41E9 -> 41EB-41EC",
-    pendingMeaning: pathNeedsCandidateSelection(localPath) ? "candidate_counter_gate" : "local_counter_gate"
+    pendingMeaning: pathNeedsCandidateSelection(localPath)
+      ? "special_candidate_candidate_accept_policy"
+      : "special_candidate_local_accept_policy"
   };
 }
 

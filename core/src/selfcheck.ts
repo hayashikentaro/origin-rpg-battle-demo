@@ -22,6 +22,7 @@ function runResolveActorCommandChecks(): void {
   assert(attack.localPath === 0, `attack localPath mismatch: ${attack.localPath}`);
   assert(attack.didConsumeCandidateRng === false, "attack should not consume candidate RNG for localPath 0");
   assert(attack.targetSource === "slotIndex", `attack targetSource mismatch: ${attack.targetSource}`);
+  assert(attack.combatDecision?.pendingMeaning === "local_counter_gate", `attack pendingMeaning mismatch: ${attack.combatDecision?.pendingMeaning}`);
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 5, "attack debugTrace shape mismatch");
 
   const defend = resolveActorCommand({
@@ -54,6 +55,7 @@ function runResolveActorCommandChecks(): void {
   assert(pointerProbe.localPath === 16, `pointerProbe localPath mismatch: ${pointerProbe.localPath}`);
   assert(pointerProbe.didConsumeCandidateRng === true, "pointerProbe should consume candidate RNG");
   assert(pointerProbe.targetSource === "candidate", `pointerProbe targetSource mismatch: ${pointerProbe.targetSource}`);
+  assert(pointerProbe.combatDecision?.pendingMeaning === "candidate_counter_gate", `pointerProbe pendingMeaning mismatch: ${pointerProbe.combatDecision?.pendingMeaning}`);
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
 

@@ -304,10 +304,12 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	var combat_decision: Dictionary = result.get("combatDecision", {})
 	var consume_counter := "--"
 	var decision_source := "--"
+	var decision_meaning := "--"
 	if combat_decision is Dictionary and combat_decision.has("shouldConsumeCounter"):
 		consume_counter = "Y" if bool(combat_decision.get("shouldConsumeCounter", false)) else "N"
 	decision_source = str(combat_decision.get("debugSource", "--"))
-	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s cc:%s/%s" % [
+	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
+	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s cc:%s/%s/%s" % [
 		label,
 		branch,
 		local_path,
@@ -318,6 +320,7 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 		candidate_offset,
 		consume_counter,
 		decision_source,
+		decision_meaning,
 	]
 
 
@@ -337,7 +340,8 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var slot_index := str(action.get("slotIndex", "--"))
 	var combat_decision: Dictionary = result.get("combatDecision", {})
 	var decision_source := str(combat_decision.get("debugSource", "--"))
-	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s src:%s" % [
+	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
+	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s src:%s/%s" % [
 		label,
 		kind_id,
 		arg,
@@ -348,6 +352,7 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 		used_candidate_rng,
 		candidate_offset,
 		decision_source,
+		decision_meaning,
 	]
 
 

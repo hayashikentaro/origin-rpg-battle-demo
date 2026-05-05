@@ -140,10 +140,12 @@ function routeTarget(target: number, slotIndex: number, candidate: { offset: num
   };
 }
 
-function resolveCombatRngAfterLocalPath(): CombatDecision | undefined {
+function resolveCombatRngAfterLocalPath(localPath: number): CombatDecision | undefined {
   return {
     shouldConsumeCounter: false,
-    debugSource: "unresolved_local_policy"
+    debugSource: "unresolved_local_policy",
+    pendingWindow: "41E7-41E9 -> 41EB-41EC",
+    pendingMeaning: pathNeedsCandidateSelection(localPath) ? "candidate_counter_gate" : "local_counter_gate"
   };
 }
 
@@ -222,7 +224,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
   const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
   const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
   const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
-  const combatDecision = resolveCombatRngAfterLocalPath();
+  const combatDecision = resolveCombatRngAfterLocalPath(localPath);
   const debugTrace = [
     `decode branch actor=${input.actorIndex} outcome=${input.outcomeLikeByte ?? 0} => ${branch}`,
     `select path kind=${input.action.kindId} arg=${input.action.arg} => ${localPath}`,
@@ -231,7 +233,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
       : "candidate rng skipped",
     `route target source=${routedTarget.source} => ${routedTarget.target}`,
     combatDecision
-      ? `combat hook consume=${combatDecision.shouldConsumeCounter} source=${combatDecision.debugSource ?? "--"}`
+      ? `combat hook consume=${combatDecision.shouldConsumeCounter} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
       : "combat hook skipped"
   ];
 

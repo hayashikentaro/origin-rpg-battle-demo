@@ -18,6 +18,8 @@ export interface BattleCommandInput {
 export interface CombatDecision {
   shouldConsumeCounter: boolean;
   debugSource?: "unresolved_local_policy";
+  pendingWindow?: "41E7-41E9 -> 41EB-41EC";
+  pendingMeaning?: "local_counter_gate" | "candidate_counter_gate";
 }
 
 export interface ActorResolveResult {

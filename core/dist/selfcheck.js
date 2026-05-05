@@ -33,6 +33,7 @@ function runResolveActorCommandChecks() {
     assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
     assert(attack.debugTrace[3]?.startsWith("combat hook "), "attack debugTrace combat-hook order mismatch");
     assert(attack.debugTrace[4]?.startsWith("post-branch marker="), "attack debugTrace marker order mismatch");
+    assert(attack.debugTrace[4]?.includes("pointer=shared/shared_default_target_provenance_path"), `attack debugTrace pointer meaning mismatch: ${attack.debugTrace[4]}`);
     assert(attack.debugTrace[5]?.startsWith("target terminal "), "attack debugTrace target-terminal order mismatch");
     const defend = (0, battle_1.resolveActorCommand)({
         actorIndex: 1,
@@ -77,6 +78,7 @@ function runResolveActorCommandChecks() {
     assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
     assert(pointerProbe.debugTrace[3]?.startsWith("combat hook "), "pointerProbe debugTrace combat-hook order mismatch");
     assert(pointerProbe.debugTrace[4]?.startsWith("post-branch marker="), "pointerProbe debugTrace marker order mismatch");
+    assert(pointerProbe.debugTrace[4]?.includes("pointer=candidate/candidate_entry_target_provenance_path"), `pointerProbe debugTrace pointer meaning mismatch: ${pointerProbe.debugTrace[4]}`);
     assert(pointerProbe.debugTrace[5]?.startsWith("target terminal "), "pointerProbe debugTrace target-terminal order mismatch");
     const ability = (0, battle_1.resolveActorCommand)({
         actorIndex: 2,

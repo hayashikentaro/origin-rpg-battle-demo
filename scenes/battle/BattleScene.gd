@@ -222,10 +222,19 @@ func _refresh_enemy_info() -> void:
 	lines.append("%s %d匹" % [first_alive.get("name", ""), count])
 	lines.append("状態: 正常")
 	if state == "command" and not actor.is_empty():
-		var actor_resolve_result: Dictionary = controller.preview_current_actor_attack()
+		var command_previews: Array = controller.preview_current_actor_commands()
 		lines.append("%s %s" % [actor.get("name", ""), _race_label(actor.get("race", ""))])
 		lines.append("HP %d/%d" % [actor.get("hp", 0), actor.get("maxHp", 0)])
-		lines.append(_format_actor_resolve_debug(actor_resolve_result))
+		if command_previews.size() > 0:
+			lines.append(_format_command_preview_debug(
+				str(command_previews[0].get("label", "ATK")),
+				command_previews[0].get("result", {})
+			))
+		if command_previews.size() > 2:
+			lines.append(_format_command_preview_debug(
+				str(command_previews[2].get("label", "PTR")),
+				command_previews[2].get("result", {})
+			))
 	else:
 		lines.append(controller.get_status_summary())
 	enemy_info_label.text = "\n".join(lines)
@@ -237,6 +246,11 @@ func _refresh_log() -> void:
 	var start_index := maxi(0, logs.size() - 1)
 	for index in range(start_index, logs.size()):
 		log_label.append_text(logs[index] + "\n")
+	if ability_list.visible:
+		for preview in controller.preview_current_actor_commands():
+			log_label.append_text(_format_log_preview_debug(preview) + "\n")
+			for trace_line in _extract_preview_trace(preview):
+				log_label.append_text("  %s\n" % trace_line)
 
 
 func _first_alive_enemy() -> Dictionary:
@@ -273,6 +287,75 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 	]
 
 
+func _format_command_preview_debug(label: String, result: Dictionary) -> String:
+	if result.is_empty():
+		return "%s --" % label
+	var branch := str(result.get("branch", "--"))
+	var local_path := str(result.get("localPath", "--"))
+	var target := str(result.get("target", "--"))
+	var target_source := str(result.get("targetSource", "--"))
+	var used_candidate_rng := "Y" if bool(result.get("didConsumeCandidateRng", false)) else "N"
+	var candidate_offset := str(result.get("candidateOffset", "--"))
+	var action: Dictionary = result.get("action", {})
+	var arg := str(action.get("arg", "--"))
+	var combat_decision: Dictionary = result.get("combatDecision", {})
+	var consume_counter := "--"
+	var decision_source := "--"
+	if combat_decision is Dictionary and combat_decision.has("shouldConsumeCounter"):
+		consume_counter = "Y" if bool(combat_decision.get("shouldConsumeCounter", false)) else "N"
+	decision_source = str(combat_decision.get("debugSource", "--"))
+	return "%s b:%s p:%s a:%s t:%s/%s 07:%s off:%s cc:%s/%s" % [
+		label,
+		branch,
+		local_path,
+		arg,
+		target,
+		target_source,
+		used_candidate_rng,
+		candidate_offset,
+		consume_counter,
+		decision_source,
+	]
+
+
+func _format_log_preview_debug(preview: Dictionary) -> String:
+	var label := str(preview.get("label", "ABL"))
+	var result: Dictionary = preview.get("result", {})
+	if result.is_empty():
+		return "%s --" % label
+	var local_path := str(result.get("localPath", "--"))
+	var target := str(result.get("target", "--"))
+	var target_source := str(result.get("targetSource", "--"))
+	var used_candidate_rng := "Y" if bool(result.get("didConsumeCandidateRng", false)) else "N"
+	var candidate_offset := str(result.get("candidateOffset", "--"))
+	var action: Dictionary = result.get("action", {})
+	var kind_id := str(action.get("kindId", "--"))
+	var arg := str(action.get("arg", "--"))
+	var slot_index := str(action.get("slotIndex", "--"))
+	var combat_decision: Dictionary = result.get("combatDecision", {})
+	var decision_source := str(combat_decision.get("debugSource", "--"))
+	return "%s k:%s a:%s s:%s p:%s t:%s/%s 07:%s off:%s src:%s" % [
+		label,
+		kind_id,
+		arg,
+		slot_index,
+		local_path,
+		target,
+		target_source,
+		used_candidate_rng,
+		candidate_offset,
+		decision_source,
+	]
+
+
+func _extract_preview_trace(preview: Dictionary) -> Array[String]:
+	var lines: Array[String] = []
+	var result: Dictionary = preview.get("result", {})
+	for line in result.get("debugTrace", []):
+		lines.append(str(line))
+	return lines
+
+
 func _on_attack_pressed() -> void:
 	controller.queue_attack()
 	_refresh_ui()
@@ -291,6 +374,7 @@ func _on_ability_pressed() -> void:
 	for ability in actor.get("abilities", []):
 		ability_list.add_item("%s" % ability.get("name", ""))
 	ability_list.visible = true
+	_refresh_log()
 
 
 func _on_ability_selected(index: int) -> void:

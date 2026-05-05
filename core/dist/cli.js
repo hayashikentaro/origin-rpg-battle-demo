@@ -27,6 +27,11 @@ function handleRequest(request) {
                     return { ok: false, error: "Missing commandInput for resolve_actor_command." };
                 }
                 return { ok: true, actorResolveResult: (0, battle_1.resolveActorCommand)(request.commandInput) };
+            case "resolve_actor_command_matrix":
+                if (!request.commandInputs) {
+                    return { ok: false, error: "Missing commandInputs for resolve_actor_command_matrix." };
+                }
+                return { ok: true, actorResolveResults: (0, battle_1.resolveActorCommandMatrix)(request.commandInputs) };
             default:
                 return { ok: false, error: `Unknown operation: ${request.operation}` };
         }

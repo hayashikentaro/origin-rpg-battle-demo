@@ -3,7 +3,7 @@ declare const process: any;
 
 const fs = require("fs");
 
-import { consumeMeat, createInitialState, queueAction, resolveActorCommand, resolveNext } from "./battle";
+import { consumeMeat, createInitialState, queueAction, resolveActorCommand, resolveActorCommandMatrix, resolveNext } from "./battle";
 import { CoreRequest, CoreResponse } from "./shared/types";
 
 function handleRequest(request: CoreRequest): CoreResponse {
@@ -31,6 +31,11 @@ function handleRequest(request: CoreRequest): CoreResponse {
           return { ok: false, error: "Missing commandInput for resolve_actor_command." };
         }
         return { ok: true, actorResolveResult: resolveActorCommand(request.commandInput) };
+      case "resolve_actor_command_matrix":
+        if (!request.commandInputs) {
+          return { ok: false, error: "Missing commandInputs for resolve_actor_command_matrix." };
+        }
+        return { ok: true, actorResolveResults: resolveActorCommandMatrix(request.commandInputs) };
       default:
         return { ok: false, error: `Unknown operation: ${request.operation}` };
     }

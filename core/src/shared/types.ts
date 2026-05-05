@@ -25,9 +25,12 @@ export interface ActorResolveResult {
   branch: number;
   localPath: number;
   target: number;
+  targetSource: "explicit" | "candidate" | "slotIndex";
   didConsumeCandidateRng: boolean;
+  candidateOffset?: number;
   action: BattleActionHead;
   combatDecision?: CombatDecision;
+  debugTrace: string[];
 }
 
 export interface StatBlock {
@@ -113,17 +116,19 @@ export interface BattleState {
 }
 
 export interface CoreRequest {
-  operation: "init" | "queue_action" | "resolve_next" | "consume_meat" | "resolve_actor_command";
+  operation: "init" | "queue_action" | "resolve_next" | "consume_meat" | "resolve_actor_command" | "resolve_actor_command_matrix";
   state?: BattleState;
   actionType?: ActionType;
   abilityIndex?: number;
   seed?: number;
   commandInput?: BattleCommandInput;
+  commandInputs?: BattleCommandInput[];
 }
 
 export interface CoreResponse {
   ok: boolean;
   state?: BattleState;
   actorResolveResult?: ActorResolveResult;
+  actorResolveResults?: ActorResolveResult[];
   error?: string;
 }

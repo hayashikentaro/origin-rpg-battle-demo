@@ -42,6 +42,13 @@ func resolve_actor_command(command_input: Dictionary) -> Dictionary:
 	})
 
 
+func resolve_actor_command_matrix(command_inputs: Array) -> Dictionary:
+	return call_core({
+		"operation": "resolve_actor_command_matrix",
+		"commandInputs": command_inputs,
+	})
+
+
 func _resolve_cli_path() -> String:
 	return ProjectSettings.globalize_path("res://core/dist/cli.js")
 

@@ -107,21 +107,71 @@ func consume_pending_meat() -> void:
 
 
 func preview_current_actor_attack() -> Dictionary:
+	return preview_current_actor_action("attack")
+
+
+func preview_current_actor_defend() -> Dictionary:
+	return preview_current_actor_action("defend")
+
+
+func preview_current_actor_pointer_probe() -> Dictionary:
+	return preview_current_actor_action("pointer_probe")
+
+
+func preview_current_actor_ability(ability_index: int = 0) -> Dictionary:
+	return preview_current_actor_action("ability", ability_index)
+
+
+func preview_current_actor_commands() -> Array:
+	var actor := get_current_actor()
+	if actor.is_empty():
+		return []
+	var command_inputs: Array = []
+	var labels: Array[String] = []
+	command_inputs.append(_build_command_input("attack", 0, actor))
+	labels.append("ATK")
+	command_inputs.append(_build_command_input("defend", 0, actor))
+	labels.append("DEF")
+	command_inputs.append(_build_command_input("pointer_probe", 0, actor))
+	labels.append("PTR")
+	var abilities: Array = actor.get("abilities", [])
+	for index in range(abilities.size()):
+		command_inputs.append(_build_command_input("ability", index, actor))
+		labels.append("ABL%s:%s" % [index, str(abilities[index].get("name", "ABILITY"))])
+	var response := _bridge.resolve_actor_command_matrix(command_inputs)
+	if not response.get("ok", false):
+		push_error(str(response.get("error", "Unknown TypeScript core error.")))
+		return []
+	var results: Array = response.get("actorResolveResults", [])
+	var previews: Array = []
+	for index in range(mini(labels.size(), results.size())):
+		previews.append({
+			"label": labels[index],
+			"result": results[index],
+		})
+	return previews
+
+
+func preview_current_actor_abilities() -> Array:
+	var actor := get_current_actor()
+	if actor.is_empty():
+		return []
+	var previews: Array = []
+	var abilities: Array = actor.get("abilities", [])
+	for index in range(abilities.size()):
+		var ability: Dictionary = abilities[index]
+		previews.append({
+			"label": "ABL%s:%s" % [index, str(ability.get("name", "ABILITY"))],
+			"result": preview_current_actor_ability(index),
+		})
+	return previews
+
+
+func preview_current_actor_action(action_type: String, ability_index: int = 0) -> Dictionary:
 	var actor := get_current_actor()
 	if actor.is_empty():
 		return {}
-	var actor_index := int(_state.get("currentActorIndex", 0))
-	var action := {
-		"kindId": 0x10,
-		"arg": 0,
-		"target": 0xFF,
-		"slotIndex": 0,
-	}
-	return _resolve_actor_command({
-		"actorIndex": actor_index,
-		"action": action,
-		"outcomeLikeByte": 0,
-	})
+	return _resolve_actor_command(_build_command_input(action_type, ability_index, actor))
 
 
 func _restart_battle() -> void:
@@ -162,3 +212,59 @@ func _find_pending_monster() -> Dictionary:
 		if ally.get("id", "") == pending_id:
 			return ally
 	return {}
+
+
+func _build_command_input(action_type: String, ability_index: int, actor: Dictionary) -> Dictionary:
+	var actor_index := int(_state.get("currentActorIndex", 0))
+	return {
+		"actorIndex": actor_index,
+		"action": _build_preview_action_head(action_type, ability_index, actor),
+		"outcomeLikeByte": 0,
+	}
+
+
+func _build_preview_action_head(action_type: String, ability_index: int, actor: Dictionary) -> Dictionary:
+	match action_type:
+		"attack":
+			return {
+				"kindId": 0x10,
+				"arg": 0,
+				"target": 0xFF,
+				"slotIndex": 0,
+			}
+		"defend":
+			return {
+				"kindId": 0x04,
+				"arg": 0,
+				"target": 0x00,
+				"slotIndex": 0,
+			}
+		"pointer_probe":
+			return {
+				"kindId": 0x01,
+				"arg": 0,
+				"target": 0xFF,
+				"slotIndex": 0,
+			}
+		"ability":
+			var abilities: Array = actor.get("abilities", [])
+			if abilities.is_empty():
+				return {
+					"kindId": 0x20,
+					"arg": 0,
+					"target": 0xFF,
+					"slotIndex": 0,
+				}
+			var clamped_index := clampi(ability_index, 0, abilities.size() - 1)
+			return {
+				"kindId": 0x20,
+				"arg": clamped_index,
+				"target": 0xFF,
+				"slotIndex": clamped_index,
+			}
+	return {
+		"kindId": 0x00,
+		"arg": 0,
+		"target": 0xFF,
+		"slotIndex": 0,
+	}

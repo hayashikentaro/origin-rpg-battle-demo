@@ -121,14 +121,23 @@ function buildPointerCandidateWithRng07_08(state: BattleState, localPath: number
   };
 }
 
-function routeTarget(target: number, slotIndex: number, candidate: { offset: number } | null): number {
+function routeTarget(target: number, slotIndex: number, candidate: { offset: number } | null) {
   if (target !== 0xff) {
-    return target;
+    return {
+      target,
+      source: "explicit" as const
+    };
   }
   if (candidate) {
-    return candidate.offset & 0x03;
+    return {
+      target: candidate.offset & 0x03,
+      source: "candidate" as const
+    };
   }
-  return slotIndex & 0x03;
+  return {
+    target: slotIndex & 0x03,
+    source: "slotIndex" as const
+  };
 }
 
 function resolveCombatRngAfterLocalPath(): CombatDecision | undefined {
@@ -212,18 +221,36 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
   const branch = decodeResolvedOutcome(input.actorIndex, input.outcomeLikeByte ?? 0);
   const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
   const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
-  const target = routeTarget(input.action.target, input.action.slotIndex, candidate);
+  const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
   const combatDecision = resolveCombatRngAfterLocalPath();
+  const debugTrace = [
+    `decode branch actor=${input.actorIndex} outcome=${input.outcomeLikeByte ?? 0} => ${branch}`,
+    `select path kind=${input.action.kindId} arg=${input.action.arg} => ${localPath}`,
+    candidate
+      ? `candidate rng 07/08 => offset=${candidate.offset}`
+      : "candidate rng skipped",
+    `route target source=${routedTarget.source} => ${routedTarget.target}`,
+    combatDecision
+      ? `combat hook consume=${combatDecision.shouldConsumeCounter} source=${combatDecision.debugSource ?? "--"}`
+      : "combat hook skipped"
+  ];
 
   return {
     actorIndex: input.actorIndex,
     branch,
     localPath,
-    target,
+    target: routedTarget.target,
+    targetSource: routedTarget.source,
     didConsumeCandidateRng: candidate !== null,
+    candidateOffset: candidate?.offset,
     action: { ...input.action },
-    combatDecision
+    combatDecision,
+    debugTrace
   };
+}
+
+export function resolveActorCommandMatrix(inputs: BattleCommandInput[]): ActorResolveResult[] {
+  return inputs.map((input) => resolveActorCommand(input));
 }
 
 function allDead(characters: CharacterState[]): boolean {

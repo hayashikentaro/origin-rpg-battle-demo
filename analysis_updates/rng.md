@@ -242,6 +242,9 @@ TypeScript `rng` モジュールで再現する領域。
 - ここまでの narrowing を step 6 の実作業順へ戻すと、battle core の first working skeleton は `branch/path -> candidate RNG -> combatDecision` の 3 段で持つのが最も自然で、`resolveActorCommand(...)` の内側では `combatDecision` だけを最後の provisional hook として残せば front/core/ROM 解析を同じ順番で進められる
 - したがって step 6 の current milestone は、`BattleActionHead` / `branch` / `localPath` / `slot07_08` / `target routing` を先に実装し、`combatDecision` だけを unresolved hook に残した actor-local bridge を成立させることにある。Godot 側もこの cut なら `branch/target/debug` ベースで先に接続を始められる
 - この cut まで来ると step 6 はもう「解析完了待ち」ではなく「skeleton 実装開始」の段階に入っている。現時点で safest な coding boundary は `resolveActorCommand(...)` で、未確定は `resolveCombatRngAfterLocalPath(...)` すなわち `combatDecision` hook 1 点へかなり集約されている
+- さらに current skeleton では、`resolveActorCommand(...)` が `branch / localPath / target / targetSource / candidateOffset / combatDecision / debugTrace` を返す debug-oriented actor-local bridge として実装済みであり、Godot 側でも `ATK / DEF / ABL{index}` の command matrix preview を通じて `kindId/arg -> localPath -> optional 07/08 candidate RNG -> target routing -> combat hook` の流れを front から直接観測できる
+- この command matrix には debug 専用 `PTR` probe も加わっていて、`kindId=0x01, arg=0, target=0xFF` を使って slot `07/08` candidate-selection path を front / self-check の両方から強制観測できる。したがって current step 6 では `07/08` 経路はかなり固定されており、主な unresolved point は `combatDecision` へさらに集中している
+- したがって step 6 の current frontier は「bridge を作ること」自体ではなく、bridge の unresolved field である `combatDecision` を ROM 側 evidence (`41E7-41E9 -> 41EB-41EC`) によって実意味へ押し上げることに移っている
 - `6157` は `C200 + 16*player` と `C7EE` の 4 byte scratch copy を含み、さらに `D400/D500` family を巻き込む後段 staging helper 候補
 - `61EB-61FB` に `C7EE -> C200 + 16*player` の逆向き copy があるため、`C7EE` は `60C0` builder の flat sentinel list ではなく player-local scratch header とみるほうが安全
 - `405C-4066` には `CALL $0198` と条件付き `D400/D401` clear があり、従来の「単なる phase switch」より一段具体的な cluster 中継部だった

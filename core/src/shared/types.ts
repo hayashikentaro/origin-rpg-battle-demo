@@ -19,6 +19,8 @@ export interface CombatDecision {
   accepted: boolean;
   branch: number;
   branchVariant?: 0 | 1;
+  branchModeMeaning?: "shared_default_local_resolution_mode" | "candidate_aware_local_resolution_mode";
+  branchVariantMeaning?: "shared_default_leaning" | "candidate_aware_strict_leaning";
   debugSource?: "unresolved_local_policy";
   pendingWindow?: "41E7-41E9 -> 41EB-41EC";
   pendingMeaning?: "special_candidate_local_accept_policy" | "special_candidate_candidate_accept_policy";
@@ -31,6 +33,7 @@ export interface ActorResolveResult {
   localPath: number;
   postBranchTargetSource: "explicit" | "candidate" | "slotIndex";
   pointerFlavor: "candidate" | "shared";
+  pointerFlavorMeaning?: "shared_default_target_provenance_path" | "candidate_entry_target_provenance_path";
   target: number;
   targetSource: "explicit" | "candidate" | "slotIndex";
   didConsumeCandidateRng: boolean;

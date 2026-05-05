@@ -28,10 +28,18 @@ function runResolveActorCommandChecks(): void {
   );
   assert(attack.combatDecision?.accepted === false, "attack accepted mismatch");
   assert(attack.combatDecision?.branch === 0, `attack combat branch mismatch: ${attack.combatDecision?.branch}`);
+  assert(
+    attack.combatDecision?.branchModeMeaning === "shared_default_local_resolution_mode",
+    `attack branchModeMeaning mismatch: ${attack.combatDecision?.branchModeMeaning}`
+  );
   assert(attack.combatDecision?.branchVariant === undefined, "attack branchVariant should be undefined");
   assert(attack.postBranchRoute === 0, `attack postBranchRoute mismatch: ${attack.postBranchRoute}`);
   assert(attack.postBranchTargetSource === "slotIndex", `attack postBranchTargetSource mismatch: ${attack.postBranchTargetSource}`);
   assert(attack.pointerFlavor === "shared", `attack pointerFlavor mismatch: ${attack.pointerFlavor}`);
+  assert(
+    attack.pointerFlavorMeaning === "shared_default_target_provenance_path",
+    `attack pointerFlavorMeaning mismatch: ${attack.pointerFlavorMeaning}`
+  );
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
 
   const defend = resolveActorCommand({
@@ -70,14 +78,26 @@ function runResolveActorCommandChecks(): void {
   );
   assert(pointerProbe.combatDecision?.accepted === false, "pointerProbe accepted mismatch");
   assert(pointerProbe.combatDecision?.branch === 0, `pointerProbe combat branch mismatch: ${pointerProbe.combatDecision?.branch}`);
+  assert(
+    pointerProbe.combatDecision?.branchModeMeaning === "candidate_aware_local_resolution_mode",
+    `pointerProbe branchModeMeaning mismatch: ${pointerProbe.combatDecision?.branchModeMeaning}`
+  );
   const expectedPointerVariant = (((Number(pointerProbe.candidateOffset) >> 8) ^ Number(pointerProbe.candidateOffset)) & 0x01);
   assert(
     pointerProbe.combatDecision?.branchVariant === expectedPointerVariant,
     `pointerProbe branchVariant mismatch: ${pointerProbe.combatDecision?.branchVariant}`
   );
+  assert(
+    typeof pointerProbe.combatDecision?.branchVariantMeaning === "string",
+    "pointerProbe branchVariantMeaning missing"
+  );
   assert(pointerProbe.postBranchRoute === expectedPointerVariant, `pointerProbe postBranchRoute mismatch: ${pointerProbe.postBranchRoute}`);
   assert(pointerProbe.postBranchTargetSource === "candidate", `pointerProbe postBranchTargetSource mismatch: ${pointerProbe.postBranchTargetSource}`);
   assert(pointerProbe.pointerFlavor === "candidate", `pointerProbe pointerFlavor mismatch: ${pointerProbe.pointerFlavor}`);
+  assert(
+    pointerProbe.pointerFlavorMeaning === "candidate_entry_target_provenance_path",
+    `pointerProbe pointerFlavorMeaning mismatch: ${pointerProbe.pointerFlavorMeaning}`
+  );
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
 

@@ -154,6 +154,21 @@ function bucketCandidateOffset(candidateOffset: number): 0 | 1 {
   return (((candidateOffset >> 8) ^ candidateOffset) & 0x01) as 0 | 1;
 }
 
+function describeBranchMode(localPath: number): "shared_default_local_resolution_mode" | "candidate_aware_local_resolution_mode" {
+  return pathNeedsCandidateSelection(localPath)
+    ? "candidate_aware_local_resolution_mode"
+    : "shared_default_local_resolution_mode";
+}
+
+function describeBranchVariantMeaning(
+  branchVariant: 0 | 1 | undefined
+): "shared_default_leaning" | "candidate_aware_strict_leaning" | undefined {
+  if (branchVariant === undefined) {
+    return undefined;
+  }
+  return branchVariant === 0 ? "shared_default_leaning" : "candidate_aware_strict_leaning";
+}
+
 function resolveCombatRngAfterLocalPath(localPath: number, candidateOffset?: number): CombatDecision | undefined {
   const candidatePath = pathNeedsCandidateSelection(localPath);
   const branchVariant = candidatePath && typeof candidateOffset === "number" ? bucketCandidateOffset(candidateOffset) : undefined;
@@ -161,6 +176,8 @@ function resolveCombatRngAfterLocalPath(localPath: number, candidateOffset?: num
     accepted: false,
     branch: 0,
     branchVariant,
+    branchModeMeaning: describeBranchMode(localPath),
+    branchVariantMeaning: describeBranchVariantMeaning(branchVariant),
     debugSource: "unresolved_local_policy",
     pendingWindow: "41E7-41E9 -> 41EB-41EC",
     pendingMeaning: candidatePath
@@ -178,6 +195,14 @@ function routeAfterDecision(branch: number, branchVariant?: 0 | 1): number {
 
 function reopenPointerFlavor(targetSource: "explicit" | "candidate" | "slotIndex"): "candidate" | "shared" {
   return targetSource === "candidate" ? "candidate" : "shared";
+}
+
+function describePointerFlavorMeaning(
+  pointerFlavor: "candidate" | "shared"
+): "shared_default_target_provenance_path" | "candidate_entry_target_provenance_path" {
+  return pointerFlavor === "candidate"
+    ? "candidate_entry_target_provenance_path"
+    : "shared_default_target_provenance_path";
 }
 
 function resolveAction(state: BattleState, action: QueuedAction): string[] {
@@ -258,6 +283,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
   const postBranchRoute = routeAfterDecision(combatDecision?.branch ?? branch, combatDecision?.branchVariant);
   const postBranchTargetSource = reopenTargetSource(input.action.target, candidate);
   const pointerFlavor = reopenPointerFlavor(postBranchTargetSource);
+  const pointerFlavorMeaning = describePointerFlavorMeaning(pointerFlavor);
   const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
   const debugTrace = [
     `decode branch actor=${input.actorIndex} outcome=${input.outcomeLikeByte ?? 0} => ${branch}`,
@@ -265,10 +291,10 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
     candidate
       ? `candidate rng 07/08 => offset=${candidate.offset}`
       : "candidate rng skipped",
-    `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor} route=${postBranchRoute}`,
+    `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning} route=${postBranchRoute}`,
     `route target source=${routedTarget.source} => ${routedTarget.target}`,
     combatDecision
-      ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch} variant=${combatDecision.branchVariant ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
+      ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
       : "combat hook skipped"
   ];
 
@@ -279,6 +305,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
     localPath,
     postBranchTargetSource,
     pointerFlavor,
+    pointerFlavorMeaning,
     target: routedTarget.target,
     targetSource: routedTarget.source,
     didConsumeCandidateRng: candidate !== null,

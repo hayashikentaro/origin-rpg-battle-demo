@@ -42,6 +42,10 @@ function runResolveActorCommandChecks(): void {
   );
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
   assert(attack.debugTrace[3]?.startsWith("combat hook "), "attack debugTrace combat-hook order mismatch");
+  assert(
+    attack.debugTrace[3]?.includes("variant=--/--"),
+    `attack debugTrace variant wording mismatch: ${attack.debugTrace[3]}`
+  );
   assert(attack.debugTrace[4]?.startsWith("post-branch marker="), "attack debugTrace marker order mismatch");
   assert(
     attack.debugTrace[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
@@ -112,6 +116,11 @@ function runResolveActorCommandChecks(): void {
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
   assert(pointerProbe.debugTrace[3]?.startsWith("combat hook "), "pointerProbe debugTrace combat-hook order mismatch");
+  assert(
+    pointerProbe.debugTrace[3]?.includes("variant=") &&
+      pointerProbe.debugTrace[3]?.includes("/" + String(pointerProbe.combatDecision?.branchVariantMeaning)),
+    `pointerProbe debugTrace variant wording mismatch: ${pointerProbe.debugTrace[3]}`
+  );
   assert(pointerProbe.debugTrace[4]?.startsWith("post-branch marker="), "pointerProbe debugTrace marker order mismatch");
   assert(
     pointerProbe.debugTrace[4]?.includes("pointer=candidate/candidate_entry_target_provenance_path"),

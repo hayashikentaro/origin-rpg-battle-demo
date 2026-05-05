@@ -25,6 +25,7 @@ const MONACO_FONT_PATH := "/System/Library/Fonts/Monaco.ttf"
 @onready var background: ColorRect = $Background
 
 var controller := BattleController.new()
+var _command_previews: Array = []
 
 
 func _ready() -> void:
@@ -111,13 +112,16 @@ func _style_command_buttons() -> void:
 
 
 func _refresh_ui() -> void:
+	var actor := controller.get_current_actor()
+	var state := controller.get_state()
+	_command_previews = []
+	if state == "command" and not actor.is_empty():
+		_command_previews = controller.preview_current_actor_commands()
+
 	_refresh_enemy_stage()
 	_refresh_party_status()
 	_refresh_enemy_info()
 	_refresh_log()
-
-	var actor := controller.get_current_actor()
-	var state := controller.get_state()
 	var prompt := controller.get_status_summary()
 
 	match state:
@@ -222,18 +226,17 @@ func _refresh_enemy_info() -> void:
 	lines.append("%s %d匹" % [first_alive.get("name", ""), count])
 	lines.append("状態: 正常")
 	if state == "command" and not actor.is_empty():
-		var command_previews: Array = controller.preview_current_actor_commands()
 		lines.append("%s %s" % [actor.get("name", ""), _race_label(actor.get("race", ""))])
 		lines.append("HP %d/%d" % [actor.get("hp", 0), actor.get("maxHp", 0)])
-		if command_previews.size() > 0:
+		if _command_previews.size() > 0:
 			lines.append(_format_command_preview_debug(
-				str(command_previews[0].get("label", "ATK")),
-				command_previews[0].get("result", {})
+				str(_command_previews[0].get("label", "ATK")),
+				_command_previews[0].get("result", {})
 			))
-		if command_previews.size() > 2:
+		if _command_previews.size() > 2:
 			lines.append(_format_command_preview_debug(
-				str(command_previews[2].get("label", "PTR")),
-				command_previews[2].get("result", {})
+				str(_command_previews[2].get("label", "PTR")),
+				_command_previews[2].get("result", {})
 			))
 	else:
 		lines.append(controller.get_status_summary())
@@ -247,7 +250,7 @@ func _refresh_log() -> void:
 	for index in range(start_index, logs.size()):
 		log_label.append_text(logs[index] + "\n")
 	if ability_list.visible:
-		for preview in controller.preview_current_actor_commands():
+		for preview in _command_previews:
 			log_label.append_text(_format_log_preview_debug(preview) + "\n")
 			for trace_line in _extract_preview_trace(preview):
 				log_label.append_text("  %s\n" % trace_line)

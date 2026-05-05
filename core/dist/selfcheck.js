@@ -31,6 +31,9 @@ function runResolveActorCommandChecks() {
     assert(attack.pointerFlavor === "shared", `attack pointerFlavor mismatch: ${attack.pointerFlavor}`);
     assert(attack.pointerFlavorMeaning === "shared_default_target_provenance_path", `attack pointerFlavorMeaning mismatch: ${attack.pointerFlavorMeaning}`);
     assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
+    assert(attack.debugTrace[3]?.startsWith("combat hook "), "attack debugTrace combat-hook order mismatch");
+    assert(attack.debugTrace[4]?.startsWith("post-branch marker="), "attack debugTrace marker order mismatch");
+    assert(attack.debugTrace[5]?.startsWith("target terminal "), "attack debugTrace target-terminal order mismatch");
     const defend = (0, battle_1.resolveActorCommand)({
         actorIndex: 1,
         action: {
@@ -72,6 +75,9 @@ function runResolveActorCommandChecks() {
     assert(pointerProbe.pointerFlavorMeaning === "candidate_entry_target_provenance_path", `pointerProbe pointerFlavorMeaning mismatch: ${pointerProbe.pointerFlavorMeaning}`);
     assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
     assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
+    assert(pointerProbe.debugTrace[3]?.startsWith("combat hook "), "pointerProbe debugTrace combat-hook order mismatch");
+    assert(pointerProbe.debugTrace[4]?.startsWith("post-branch marker="), "pointerProbe debugTrace marker order mismatch");
+    assert(pointerProbe.debugTrace[5]?.startsWith("target terminal "), "pointerProbe debugTrace target-terminal order mismatch");
     const ability = (0, battle_1.resolveActorCommand)({
         actorIndex: 2,
         action: {

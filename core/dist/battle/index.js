@@ -115,11 +115,58 @@ function routeTarget(target, slotIndex, candidate) {
         source: "slotIndex"
     };
 }
-function resolveCombatRngAfterLocalPath() {
+function reopenTargetSource(target, candidate) {
+    if (target !== 0xff) {
+        return "explicit";
+    }
+    if (candidate) {
+        return "candidate";
+    }
+    return "slotIndex";
+}
+function bucketCandidateOffset(candidateOffset) {
+    return (((candidateOffset >> 8) ^ candidateOffset) & 0x01);
+}
+function describeBranchMode(localPath) {
+    return pathNeedsCandidateSelection(localPath)
+        ? "candidate_aware_local_resolution_mode"
+        : "shared_default_local_resolution_mode";
+}
+function describeBranchVariantMeaning(branchVariant) {
+    if (branchVariant === undefined) {
+        return undefined;
+    }
+    return branchVariant === 0 ? "shared_default_leaning" : "candidate_aware_strict_leaning";
+}
+function resolveCombatRngAfterLocalPath(localPath, candidateOffset) {
+    const candidatePath = pathNeedsCandidateSelection(localPath);
+    const branchVariant = candidatePath && typeof candidateOffset === "number" ? bucketCandidateOffset(candidateOffset) : undefined;
     return {
-        shouldConsumeCounter: false,
-        debugSource: "unresolved_local_policy"
+        accepted: false,
+        branch: 0,
+        branchVariant,
+        branchModeMeaning: describeBranchMode(localPath),
+        branchVariantMeaning: describeBranchVariantMeaning(branchVariant),
+        debugSource: "unresolved_local_policy",
+        pendingWindow: "41E7-41E9 -> 41EB-41EC",
+        pendingMeaning: candidatePath
+            ? "special_candidate_candidate_accept_policy"
+            : "special_candidate_local_accept_policy"
     };
+}
+function routeAfterDecision(branch, branchVariant) {
+    if (branchVariant === undefined) {
+        return branch;
+    }
+    return (branch << 1) | branchVariant;
+}
+function reopenPointerFlavor(targetSource) {
+    return targetSource === "candidate" ? "candidate" : "shared";
+}
+function describePointerFlavorMeaning(pointerFlavor) {
+    return pointerFlavor === "candidate"
+        ? "candidate_entry_target_provenance_path"
+        : "shared_default_target_provenance_path";
 }
 function resolveAction(state, action) {
     const actor = action.side === "ally" ? findCharacter(state.allies, action.actorId) : findCharacter(state.enemies, action.actorId);
@@ -184,23 +231,32 @@ function resolveActorCommand(input) {
     const branch = decodeResolvedOutcome(input.actorIndex, input.outcomeLikeByte ?? 0);
     const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
     const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
+    const combatDecision = resolveCombatRngAfterLocalPath(localPath, candidate?.offset);
+    const postBranchRoute = routeAfterDecision(combatDecision?.branch ?? branch, combatDecision?.branchVariant);
+    const postBranchTargetSource = reopenTargetSource(input.action.target, candidate);
+    const pointerFlavor = reopenPointerFlavor(postBranchTargetSource);
+    const pointerFlavorMeaning = describePointerFlavorMeaning(pointerFlavor);
     const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
-    const combatDecision = resolveCombatRngAfterLocalPath();
     const debugTrace = [
         `decode branch actor=${input.actorIndex} outcome=${input.outcomeLikeByte ?? 0} => ${branch}`,
         `select path kind=${input.action.kindId} arg=${input.action.arg} => ${localPath}`,
         candidate
             ? `candidate rng 07/08 => offset=${candidate.offset}`
             : "candidate rng skipped",
+        `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning} route=${postBranchRoute}`,
         `route target source=${routedTarget.source} => ${routedTarget.target}`,
         combatDecision
-            ? `combat hook consume=${combatDecision.shouldConsumeCounter} source=${combatDecision.debugSource ?? "--"}`
+            ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
             : "combat hook skipped"
     ];
     return {
         actorIndex: input.actorIndex,
         branch,
+        postBranchRoute,
         localPath,
+        postBranchTargetSource,
+        pointerFlavor,
+        pointerFlavorMeaning,
         target: routedTarget.target,
         targetSource: routedTarget.source,
         didConsumeCandidateRng: candidate !== null,

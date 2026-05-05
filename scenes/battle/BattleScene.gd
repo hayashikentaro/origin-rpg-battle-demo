@@ -292,7 +292,7 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 	decision_variant = str(combat_decision.get("branchVariant", "--"))
 	decision_variant_meaning = str(combat_decision.get("branchVariantMeaning", "--"))
 	decision_variant_carry = str(combat_decision.get("branchVariantCarryMeaning", "--"))
-	return "DBG b:%s cb:%s/%s cv:%s/%s/%s r:%s\npf:%s/%s ts:%s tgt:%s k:%s a:%s s:%s c07:%s" % [
+	return "DBG b:%s cb:%s/%s cv:%s/%s/%s r:%s\npf:%s/%s m:%s tgt:%s k:%s a:%s s:%s c07:%s" % [
 		branch,
 		decision_branch,
 		decision_branch_meaning,
@@ -344,7 +344,7 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	decision_variant_carry = str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	decision_source = str(combat_decision.get("debugSource", "--"))
 	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
-	return "%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s src:%s tgt:%s/%s a:%s 07:%s off:%s %s/%s" % [
+	return "%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s m:%s tgt:%s/%s a:%s 07:%s off:%s %s/%s" % [
 		label,
 		branch,
 		decision_branch,
@@ -393,7 +393,7 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var decision_variant_carry := str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	var decision_source := str(combat_decision.get("debugSource", "--"))
 	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
-	return "%s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s src:%s tgt:%s/%s 07:%s off:%s src:%s/%s" % [
+	return "%s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s m:%s tgt:%s/%s 07:%s off:%s src:%s/%s" % [
 		label,
 		kind_id,
 		arg,

@@ -140,6 +140,16 @@ function routeTarget(target: number, slotIndex: number, candidate: { offset: num
   };
 }
 
+function reopenTargetSource(target: number, candidate: { offset: number } | null) {
+  if (target !== 0xff) {
+    return "explicit" as const;
+  }
+  if (candidate) {
+    return "candidate" as const;
+  }
+  return "slotIndex" as const;
+}
+
 function bucketCandidateOffset(candidateOffset: number): 0 | 1 {
   return (((candidateOffset >> 8) ^ candidateOffset) & 0x01) as 0 | 1;
 }
@@ -164,6 +174,10 @@ function routeAfterDecision(branch: number, branchVariant?: 0 | 1): number {
     return branch;
   }
   return (branch << 1) | branchVariant;
+}
+
+function reopenPointerFlavor(targetSource: "explicit" | "candidate" | "slotIndex"): "candidate" | "shared" {
+  return targetSource === "candidate" ? "candidate" : "shared";
 }
 
 function resolveAction(state: BattleState, action: QueuedAction): string[] {
@@ -240,15 +254,18 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
   const branch = decodeResolvedOutcome(input.actorIndex, input.outcomeLikeByte ?? 0);
   const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
   const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
-  const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
   const combatDecision = resolveCombatRngAfterLocalPath(localPath, candidate?.offset);
   const postBranchRoute = routeAfterDecision(combatDecision?.branch ?? branch, combatDecision?.branchVariant);
+  const postBranchTargetSource = reopenTargetSource(input.action.target, candidate);
+  const pointerFlavor = reopenPointerFlavor(postBranchTargetSource);
+  const routedTarget = routeTarget(input.action.target, input.action.slotIndex, candidate);
   const debugTrace = [
     `decode branch actor=${input.actorIndex} outcome=${input.outcomeLikeByte ?? 0} => ${branch}`,
     `select path kind=${input.action.kindId} arg=${input.action.arg} => ${localPath}`,
     candidate
       ? `candidate rng 07/08 => offset=${candidate.offset}`
       : "candidate rng skipped",
+    `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor} route=${postBranchRoute}`,
     `route target source=${routedTarget.source} => ${routedTarget.target}`,
     combatDecision
       ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch} variant=${combatDecision.branchVariant ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
@@ -260,6 +277,8 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
     branch,
     postBranchRoute,
     localPath,
+    postBranchTargetSource,
+    pointerFlavor,
     target: routedTarget.target,
     targetSource: routedTarget.source,
     didConsumeCandidateRng: candidate !== null,

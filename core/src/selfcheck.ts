@@ -30,7 +30,9 @@ function runResolveActorCommandChecks(): void {
   assert(attack.combatDecision?.branch === 0, `attack combat branch mismatch: ${attack.combatDecision?.branch}`);
   assert(attack.combatDecision?.branchVariant === undefined, "attack branchVariant should be undefined");
   assert(attack.postBranchRoute === 0, `attack postBranchRoute mismatch: ${attack.postBranchRoute}`);
-  assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 5, "attack debugTrace shape mismatch");
+  assert(attack.postBranchTargetSource === "slotIndex", `attack postBranchTargetSource mismatch: ${attack.postBranchTargetSource}`);
+  assert(attack.pointerFlavor === "shared", `attack pointerFlavor mismatch: ${attack.pointerFlavor}`);
+  assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
 
   const defend = resolveActorCommand({
     actorIndex: 1,
@@ -74,6 +76,8 @@ function runResolveActorCommandChecks(): void {
     `pointerProbe branchVariant mismatch: ${pointerProbe.combatDecision?.branchVariant}`
   );
   assert(pointerProbe.postBranchRoute === expectedPointerVariant, `pointerProbe postBranchRoute mismatch: ${pointerProbe.postBranchRoute}`);
+  assert(pointerProbe.postBranchTargetSource === "candidate", `pointerProbe postBranchTargetSource mismatch: ${pointerProbe.postBranchTargetSource}`);
+  assert(pointerProbe.pointerFlavor === "candidate", `pointerProbe pointerFlavor mismatch: ${pointerProbe.pointerFlavor}`);
   assert(typeof pointerProbe.candidateOffset === "number", "pointerProbe candidateOffset missing");
   assert(pointerProbe.debugTrace[2]?.startsWith("candidate rng 07/08"), "pointerProbe debugTrace candidate step missing");
 

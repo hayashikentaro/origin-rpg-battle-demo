@@ -29,6 +29,8 @@ export interface ActorResolveResult {
   branch: number;
   postBranchRoute: number;
   localPath: number;
+  postBranchTargetSource: "explicit" | "candidate" | "slotIndex";
+  pointerFlavor: "candidate" | "shared";
   target: number;
   targetSource: "explicit" | "candidate" | "slotIndex";
   didConsumeCandidateRng: boolean;

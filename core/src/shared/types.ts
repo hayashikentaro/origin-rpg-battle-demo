@@ -21,6 +21,7 @@ export interface CombatDecision {
   branchVariant?: 0 | 1;
   branchModeMeaning?: "shared_default_local_resolution_mode" | "candidate_aware_local_resolution_mode";
   branchVariantMeaning?: "shared_default_leaning" | "candidate_aware_strict_leaning";
+  branchVariantCarryMeaning?: "same_side_pointer_correspondence";
   debugSource?: "unresolved_local_policy";
   pendingWindow?: "41E7-41E9 -> 41EB-41EC";
   pendingMeaning?: "special_candidate_local_accept_policy" | "special_candidate_candidate_accept_policy";

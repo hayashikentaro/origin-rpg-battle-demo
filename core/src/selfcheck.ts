@@ -91,6 +91,10 @@ function runResolveActorCommandChecks(): void {
     typeof pointerProbe.combatDecision?.branchVariantMeaning === "string",
     "pointerProbe branchVariantMeaning missing"
   );
+  assert(
+    pointerProbe.combatDecision?.branchVariantCarryMeaning === "same_side_pointer_correspondence",
+    `pointerProbe branchVariantCarryMeaning mismatch: ${pointerProbe.combatDecision?.branchVariantCarryMeaning}`
+  );
   assert(pointerProbe.postBranchRoute === expectedPointerVariant, `pointerProbe postBranchRoute mismatch: ${pointerProbe.postBranchRoute}`);
   assert(pointerProbe.postBranchTargetSource === "candidate", `pointerProbe postBranchTargetSource mismatch: ${pointerProbe.postBranchTargetSource}`);
   assert(pointerProbe.pointerFlavor === "candidate", `pointerProbe pointerFlavor mismatch: ${pointerProbe.pointerFlavor}`);

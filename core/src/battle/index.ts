@@ -178,6 +178,7 @@ function resolveCombatRngAfterLocalPath(localPath: number, candidateOffset?: num
     branchVariant,
     branchModeMeaning: describeBranchMode(localPath),
     branchVariantMeaning: describeBranchVariantMeaning(branchVariant),
+    branchVariantCarryMeaning: branchVariant === undefined ? undefined : "same_side_pointer_correspondence",
     debugSource: "unresolved_local_policy",
     pendingWindow: "41E7-41E9 -> 41EB-41EC",
     pendingMeaning: candidatePath
@@ -292,7 +293,7 @@ export function resolveActorCommand(input: BattleCommandInput): ActorResolveResu
       ? `candidate rng 07/08 => offset=${candidate.offset}`
       : "candidate rng skipped",
     combatDecision
-      ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
+      ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} carry=${combatDecision.branchVariantCarryMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
       : `combat hook skipped route=${postBranchRoute}`,
     `post-branch source=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning}`,
     `route target source=${routedTarget.source} => ${routedTarget.target}`

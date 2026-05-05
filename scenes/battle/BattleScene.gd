@@ -284,18 +284,21 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 	var decision_branch_meaning := "--"
 	var decision_variant := "--"
 	var decision_variant_meaning := "--"
+	var decision_variant_carry := "--"
 	if combat_decision is Dictionary and combat_decision.has("accepted"):
 		accepted = "Y" if bool(combat_decision.get("accepted", false)) else "N"
 	decision_branch = str(combat_decision.get("branch", "--"))
 	decision_branch_meaning = str(combat_decision.get("branchModeMeaning", "--"))
 	decision_variant = str(combat_decision.get("branchVariant", "--"))
 	decision_variant_meaning = str(combat_decision.get("branchVariantMeaning", "--"))
-	return "DBG b:%s cb:%s/%s cv:%s/%s r:%s\npf:%s/%s ts:%s t:%s k:%s a:%s s:%s c07:%s" % [
+	decision_variant_carry = str(combat_decision.get("branchVariantCarryMeaning", "--"))
+	return "DBG b:%s cb:%s/%s cv:%s/%s/%s r:%s\npf:%s/%s ts:%s t:%s k:%s a:%s s:%s c07:%s" % [
 		branch,
 		decision_branch,
 		decision_branch_meaning,
 		decision_variant,
 		decision_variant_meaning,
+		decision_variant_carry,
 		post_branch_route,
 		pointer_flavor,
 		pointer_flavor_meaning,
@@ -329,6 +332,7 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	var decision_branch_meaning := "--"
 	var decision_variant := "--"
 	var decision_variant_meaning := "--"
+	var decision_variant_carry := "--"
 	var decision_source := "--"
 	var decision_meaning := "--"
 	if combat_decision is Dictionary and combat_decision.has("accepted"):
@@ -337,15 +341,17 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	decision_branch_meaning = str(combat_decision.get("branchModeMeaning", "--"))
 	decision_variant = str(combat_decision.get("branchVariant", "--"))
 	decision_variant_meaning = str(combat_decision.get("branchVariantMeaning", "--"))
+	decision_variant_carry = str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	decision_source = str(combat_decision.get("debugSource", "--"))
 	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
-	return "%s b:%s cb:%s/%s cv:%s/%s r:%s ptr:%s/%s src:%s t:%s/%s a:%s 07:%s off:%s %s/%s" % [
+	return "%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s src:%s t:%s/%s a:%s 07:%s off:%s %s/%s" % [
 		label,
 		branch,
 		decision_branch,
 		decision_branch_meaning,
 		decision_variant,
 		decision_variant_meaning,
+		decision_variant_carry,
 		post_branch_route,
 		pointer_flavor,
 		pointer_flavor_meaning,
@@ -384,9 +390,10 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var decision_branch_meaning := str(combat_decision.get("branchModeMeaning", "--"))
 	var decision_variant := str(combat_decision.get("branchVariant", "--"))
 	var decision_variant_meaning := str(combat_decision.get("branchVariantMeaning", "--"))
+	var decision_variant_carry := str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	var decision_source := str(combat_decision.get("debugSource", "--"))
 	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
-	return "%s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s r:%s ptr:%s/%s src:%s t:%s/%s 07:%s off:%s src:%s/%s" % [
+	return "%s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s/%s r:%s ptr:%s/%s src:%s t:%s/%s 07:%s off:%s src:%s/%s" % [
 		label,
 		kind_id,
 		arg,
@@ -396,6 +403,7 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 		decision_branch_meaning,
 		decision_variant,
 		decision_variant_meaning,
+		decision_variant_carry,
 		post_branch_route,
 		pointer_flavor,
 		pointer_flavor_meaning,

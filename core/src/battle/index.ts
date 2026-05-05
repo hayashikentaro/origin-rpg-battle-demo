@@ -2,7 +2,16 @@ import { applyVictoryGrowth } from "../growth";
 import { nextFloat, nextInt, normalizeSeed } from "../rng";
 import { canTransform, transformMonster } from "../transform";
 import { createAllies, createEnemies, getEnemyMeatDrop } from "../shared/demoData";
-import { Ability, BattleState, CharacterState, QueuedAction, StatBonuses } from "../shared/types";
+import {
+  Ability,
+  ActorResolveResult,
+  BattleCommandInput,
+  BattleState,
+  CharacterState,
+  CombatDecision,
+  QueuedAction,
+  StatBonuses
+} from "../shared/types";
 
 function cloneCharacter(character: CharacterState): CharacterState {
   return JSON.parse(JSON.stringify(character));
@@ -88,6 +97,47 @@ function applyHealing(target: CharacterState, amount: number): number {
   return amount;
 }
 
+function decodeResolvedOutcome(playerIndex: number, outcomeLikeByte = 0): number {
+  return ((playerIndex & 0x03) << 4) | (outcomeLikeByte & 0x0f);
+}
+
+function selectLocalActionPath(kindId: number, arg: number): number {
+  return ((kindId & 0x0f) << 4) | (arg & 0x0f);
+}
+
+function pathNeedsCandidateSelection(localPath: number): boolean {
+  return (localPath & 0x10) !== 0;
+}
+
+function buildPointerCandidateWithRng07_08(state: BattleState, localPath: number) {
+  const upperHi = (localPath >> 1) & 0x0f;
+  const upperLo = ((localPath << 1) | 0x03) & 0x0f;
+  const hi = nextInt(state, 0, upperHi);
+  const lo = nextInt(state, 0, upperLo);
+  return {
+    slotHi: 0x07,
+    slotLo: 0x08,
+    offset: ((hi & 0xff) << 8) | (lo & 0xff)
+  };
+}
+
+function routeTarget(target: number, slotIndex: number, candidate: { offset: number } | null): number {
+  if (target !== 0xff) {
+    return target;
+  }
+  if (candidate) {
+    return candidate.offset & 0x03;
+  }
+  return slotIndex & 0x03;
+}
+
+function resolveCombatRngAfterLocalPath(): CombatDecision | undefined {
+  return {
+    shouldConsumeCounter: false,
+    debugSource: "unresolved_local_policy"
+  };
+}
+
 function resolveAction(state: BattleState, action: QueuedAction): string[] {
   const actor = action.side === "ally" ? findCharacter(state.allies, action.actorId) : findCharacter(state.enemies, action.actorId);
   if (!actor || !actor.isAlive) {
@@ -155,6 +205,25 @@ function resolveAbility(
     logs.push(`${target.name}は倒れた。`);
   }
   return logs;
+}
+
+export function resolveActorCommand(input: BattleCommandInput): ActorResolveResult {
+  const state = createInitialState(1);
+  const branch = decodeResolvedOutcome(input.actorIndex, input.outcomeLikeByte ?? 0);
+  const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
+  const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
+  const target = routeTarget(input.action.target, input.action.slotIndex, candidate);
+  const combatDecision = resolveCombatRngAfterLocalPath();
+
+  return {
+    actorIndex: input.actorIndex,
+    branch,
+    localPath,
+    target,
+    didConsumeCandidateRng: candidate !== null,
+    action: { ...input.action },
+    combatDecision
+  };
 }
 
 function allDead(characters: CharacterState[]): boolean {

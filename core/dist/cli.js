@@ -22,6 +22,11 @@ function handleRequest(request) {
                     return { ok: false, error: "Missing state for consume_meat." };
                 }
                 return { ok: true, state: (0, battle_1.consumeMeat)(request.state) };
+            case "resolve_actor_command":
+                if (!request.commandInput) {
+                    return { ok: false, error: "Missing commandInput for resolve_actor_command." };
+                }
+                return { ok: true, actorResolveResult: (0, battle_1.resolveActorCommand)(request.commandInput) };
             default:
                 return { ok: false, error: `Unknown operation: ${request.operation}` };
         }

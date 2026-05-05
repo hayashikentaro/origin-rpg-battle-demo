@@ -2,6 +2,34 @@ export type BattleMode = "command" | "victory_meat" | "victory_done" | "defeat" 
 export type Race = "Human" | "Esper" | "Monster" | "Robot" | "Enemy";
 export type ActionType = "attack" | "ability" | "defend";
 
+export interface BattleActionHead {
+  kindId: number;
+  arg: number;
+  target: number;
+  slotIndex: number;
+}
+
+export interface BattleCommandInput {
+  actorIndex: number;
+  action: BattleActionHead;
+  outcomeLikeByte?: number;
+}
+
+export interface CombatDecision {
+  shouldConsumeCounter: boolean;
+  debugSource?: "unresolved_local_policy";
+}
+
+export interface ActorResolveResult {
+  actorIndex: number;
+  branch: number;
+  localPath: number;
+  target: number;
+  didConsumeCandidateRng: boolean;
+  action: BattleActionHead;
+  combatDecision?: CombatDecision;
+}
+
 export interface StatBlock {
   maxHp: number;
   str: number;
@@ -85,15 +113,17 @@ export interface BattleState {
 }
 
 export interface CoreRequest {
-  operation: "init" | "queue_action" | "resolve_next" | "consume_meat";
+  operation: "init" | "queue_action" | "resolve_next" | "consume_meat" | "resolve_actor_command";
   state?: BattleState;
   actionType?: ActionType;
   abilityIndex?: number;
   seed?: number;
+  commandInput?: BattleCommandInput;
 }
 
 export interface CoreResponse {
   ok: boolean;
   state?: BattleState;
+  actorResolveResult?: ActorResolveResult;
   error?: string;
 }

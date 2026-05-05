@@ -35,6 +35,13 @@ func call_core(request: Dictionary) -> Dictionary:
 	return parsed
 
 
+func resolve_actor_command(command_input: Dictionary) -> Dictionary:
+	return call_core({
+		"operation": "resolve_actor_command",
+		"commandInput": command_input,
+	})
+
+
 func _resolve_cli_path() -> String:
 	return ProjectSettings.globalize_path("res://core/dist/cli.js")
 

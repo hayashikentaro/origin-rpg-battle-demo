@@ -5,6 +5,7 @@ const CoreBridge = preload("res://scripts/frontend/core_bridge.gd")
 
 var _bridge := CoreBridge.new()
 var _state: Dictionary = {}
+var _last_actor_resolve_result: Dictionary = {}
 
 
 func _init() -> void:
@@ -28,6 +29,10 @@ func get_battle_log() -> Array[String]:
 
 func get_state() -> String:
 	return str(_state.get("state", ""))
+
+
+func get_last_actor_resolve_result() -> Dictionary:
+	return _last_actor_resolve_result.duplicate(true)
 
 
 func get_turn_number() -> int:
@@ -101,7 +106,26 @@ func consume_pending_meat() -> void:
 	_apply_request({"operation": "consume_meat", "state": _state})
 
 
+func preview_current_actor_attack() -> Dictionary:
+	var actor := get_current_actor()
+	if actor.is_empty():
+		return {}
+	var actor_index := int(_state.get("currentActorIndex", 0))
+	var action := {
+		"kindId": 0x10,
+		"arg": 0,
+		"target": 0xFF,
+		"slotIndex": 0,
+	}
+	return _resolve_actor_command({
+		"actorIndex": actor_index,
+		"action": action,
+		"outcomeLikeByte": 0,
+	})
+
+
 func _restart_battle() -> void:
+	_last_actor_resolve_result = {}
 	_apply_request({"operation": "init"})
 
 
@@ -111,6 +135,15 @@ func _apply_request(request: Dictionary) -> void:
 		push_error(str(response.get("error", "Unknown TypeScript core error.")))
 		return
 	_state = response.get("state", {})
+
+
+func _resolve_actor_command(command_input: Dictionary) -> Dictionary:
+	var response := _bridge.resolve_actor_command(command_input)
+	if not response.get("ok", false):
+		push_error(str(response.get("error", "Unknown TypeScript core error.")))
+		return {}
+	_last_actor_resolve_result = response.get("actorResolveResult", {})
+	return _last_actor_resolve_result.duplicate(true)
 
 
 func _living_allies() -> Array:

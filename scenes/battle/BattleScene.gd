@@ -222,8 +222,10 @@ func _refresh_enemy_info() -> void:
 	lines.append("%s %d匹" % [first_alive.get("name", ""), count])
 	lines.append("状態: 正常")
 	if state == "command" and not actor.is_empty():
+		var actor_resolve_result: Dictionary = controller.preview_current_actor_attack()
 		lines.append("%s %s" % [actor.get("name", ""), _race_label(actor.get("race", ""))])
 		lines.append("HP %d/%d" % [actor.get("hp", 0), actor.get("maxHp", 0)])
+		lines.append(_format_actor_resolve_debug(actor_resolve_result))
 	else:
 		lines.append(controller.get_status_summary())
 	enemy_info_label.text = "\n".join(lines)
@@ -242,6 +244,33 @@ func _first_alive_enemy() -> Dictionary:
 		if enemy.get("isAlive", false):
 			return enemy
 	return {}
+
+
+func _format_actor_resolve_debug(result: Dictionary) -> String:
+	if result.is_empty():
+		return "DBG --"
+	var branch := str(result.get("branch", "--"))
+	var local_path := str(result.get("localPath", "--"))
+	var target := str(result.get("target", "--"))
+	var used_candidate_rng := "Y" if bool(result.get("didConsumeCandidateRng", false)) else "N"
+	var action: Dictionary = result.get("action", {})
+	var kind_id := str(action.get("kindId", "--"))
+	var arg := str(action.get("arg", "--"))
+	var slot_index := str(action.get("slotIndex", "--"))
+	var combat_decision: Dictionary = result.get("combatDecision", {})
+	var consume_counter := "--"
+	if combat_decision is Dictionary and combat_decision.has("shouldConsumeCounter"):
+		consume_counter = "Y" if bool(combat_decision.get("shouldConsumeCounter", false)) else "N"
+	return "DBG b:%s p:%s t:%s\nk:%s a:%s s:%s c07:%s cc:%s" % [
+		branch,
+		local_path,
+		target,
+		kind_id,
+		arg,
+		slot_index,
+		used_candidate_rng,
+		consume_counter,
+	]
 
 
 func _on_attack_pressed() -> void:

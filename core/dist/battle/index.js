@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.consumeMeat = exports.resolveNext = exports.queueAction = exports.createInitialState = void 0;
+exports.consumeMeat = exports.resolveNext = exports.queueAction = exports.createInitialState = exports.resolveActorCommand = void 0;
 const growth_1 = require("../growth");
 const rng_1 = require("../rng");
 const transform_1 = require("../transform");
@@ -77,6 +77,41 @@ function applyHealing(target, amount) {
     target.isAlive = target.hp > 0;
     return amount;
 }
+function decodeResolvedOutcome(playerIndex, outcomeLikeByte = 0) {
+    return ((playerIndex & 0x03) << 4) | (outcomeLikeByte & 0x0f);
+}
+function selectLocalActionPath(kindId, arg) {
+    return ((kindId & 0x0f) << 4) | (arg & 0x0f);
+}
+function pathNeedsCandidateSelection(localPath) {
+    return (localPath & 0x10) !== 0;
+}
+function buildPointerCandidateWithRng07_08(state, localPath) {
+    const upperHi = (localPath >> 1) & 0x0f;
+    const upperLo = ((localPath << 1) | 0x03) & 0x0f;
+    const hi = (0, rng_1.nextInt)(state, 0, upperHi);
+    const lo = (0, rng_1.nextInt)(state, 0, upperLo);
+    return {
+        slotHi: 0x07,
+        slotLo: 0x08,
+        offset: ((hi & 0xff) << 8) | (lo & 0xff)
+    };
+}
+function routeTarget(target, slotIndex, candidate) {
+    if (target !== 0xff) {
+        return target;
+    }
+    if (candidate) {
+        return candidate.offset & 0x03;
+    }
+    return slotIndex & 0x03;
+}
+function resolveCombatRngAfterLocalPath() {
+    return {
+        shouldConsumeCounter: false,
+        debugSource: "unresolved_local_policy"
+    };
+}
 function resolveAction(state, action) {
     const actor = action.side === "ally" ? findCharacter(state.allies, action.actorId) : findCharacter(state.enemies, action.actorId);
     if (!actor || !actor.isAlive) {
@@ -135,6 +170,24 @@ function resolveAbility(state, actor, ability, allies, enemies) {
     }
     return logs;
 }
+function resolveActorCommand(input) {
+    const state = createInitialState(1);
+    const branch = decodeResolvedOutcome(input.actorIndex, input.outcomeLikeByte ?? 0);
+    const localPath = selectLocalActionPath(input.action.kindId, input.action.arg);
+    const candidate = pathNeedsCandidateSelection(localPath) ? buildPointerCandidateWithRng07_08(state, localPath) : null;
+    const target = routeTarget(input.action.target, input.action.slotIndex, candidate);
+    const combatDecision = resolveCombatRngAfterLocalPath();
+    return {
+        actorIndex: input.actorIndex,
+        branch,
+        localPath,
+        target,
+        didConsumeCandidateRng: candidate !== null,
+        action: { ...input.action },
+        combatDecision
+    };
+}
+exports.resolveActorCommand = resolveActorCommand;
 function allDead(characters) {
     return characters.every((character) => !character.isAlive);
 }

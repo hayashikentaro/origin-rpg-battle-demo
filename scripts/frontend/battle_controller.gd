@@ -139,6 +139,9 @@ func preview_current_actor_commands() -> Array:
 	command_inputs.append(_build_command_input("pointer_probe", 0, actor))
 	labels.append("PTR")
 	var abilities: Array = actor.get("abilities", [])
+	if not abilities.is_empty():
+		command_inputs.append(_build_command_input("ability_explicit", 0, actor))
+		labels.append("ABLX0:%s" % str(abilities[0].get("name", "ABILITY")))
 	for index in range(abilities.size()):
 		command_inputs.append(_build_command_input("ability", index, actor))
 		labels.append("ABL%s:%s" % [index, str(abilities[index].get("name", "ABILITY"))])
@@ -278,6 +281,22 @@ func _build_preview_action_head(action_type: String, ability_index: int, actor: 
 				"kindId": 0x20,
 				"arg": clamped_index,
 				"target": 0xFF,
+				"slotIndex": clamped_index,
+			}
+		"ability_explicit":
+			var abilities: Array = actor.get("abilities", [])
+			if abilities.is_empty():
+				return {
+					"kindId": 0x20,
+					"arg": 0,
+					"target": 0x00,
+					"slotIndex": 0,
+				}
+			var clamped_index := clampi(ability_index, 0, abilities.size() - 1)
+			return {
+				"kindId": 0x20,
+				"arg": clamped_index,
+				"target": 0x00,
 				"slotIndex": clamped_index,
 			}
 	return {

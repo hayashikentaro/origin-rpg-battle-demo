@@ -304,8 +304,24 @@ function runResolveActorCommandChecks(): void {
   assert(matrix[2]?.target === 1, `matrix[2] target mismatch: ${matrix[2]?.target}`);
   assert(matrix[3]?.targetSource === "candidate", `matrix[3] targetSource mismatch: ${matrix[3]?.targetSource}`);
   assert(matrix[4]?.targetSource === "explicit", `matrix[4] targetSource mismatch: ${matrix[4]?.targetSource}`);
+  assert(matrix[4]?.postBranchRoute === 0, `matrix[4] postBranchRoute mismatch: ${matrix[4]?.postBranchRoute}`);
+  assert(matrix[4]?.postBranchTargetSource === "explicit", `matrix[4] postBranchTargetSource mismatch: ${matrix[4]?.postBranchTargetSource}`);
+  assert(matrix[4]?.pointerFlavor === "shared", `matrix[4] pointerFlavor mismatch: ${matrix[4]?.pointerFlavor}`);
+  assert(
+    matrix[4]?.debugTrace?.[4]?.includes("marker=explicit") &&
+      matrix[4]?.debugTrace?.[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
+    `matrix[4] debugTrace marker/pointer mismatch: ${matrix[4]?.debugTrace?.[4]}`
+  );
   assert(matrix[5]?.targetSource === "slotIndex", `matrix[5] targetSource mismatch: ${matrix[5]?.targetSource}`);
   assert(matrix[5]?.target === 1, `matrix[5] target mismatch: ${matrix[5]?.target}`);
+  assert(matrix[5]?.postBranchRoute === 0, `matrix[5] postBranchRoute mismatch: ${matrix[5]?.postBranchRoute}`);
+  assert(matrix[5]?.postBranchTargetSource === "slotIndex", `matrix[5] postBranchTargetSource mismatch: ${matrix[5]?.postBranchTargetSource}`);
+  assert(matrix[5]?.pointerFlavor === "shared", `matrix[5] pointerFlavor mismatch: ${matrix[5]?.pointerFlavor}`);
+  assert(
+    matrix[5]?.debugTrace?.[4]?.includes("marker=slotIndex") &&
+      matrix[5]?.debugTrace?.[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
+    `matrix[5] debugTrace marker/pointer mismatch: ${matrix[5]?.debugTrace?.[4]}`
+  );
 }
 
 runResolveActorCommandChecks();

@@ -252,7 +252,13 @@ func _refresh_log() -> void:
 	for index in range(start_index, logs.size()):
 		log_label.append_text(logs[index] + "\n")
 	if ability_list.visible:
+		var last_family := ""
 		for preview in _command_previews:
+			var label := str(preview.get("label", ""))
+			var family := _format_preview_family(label)
+			if family != last_family and not last_family.is_empty():
+				log_label.append_text("\n")
+			last_family = family
 			log_label.append_text(_format_log_preview_debug(preview) + "\n")
 			for trace_line in _extract_preview_trace(preview):
 				log_label.append_text("  %s\n" % trace_line)

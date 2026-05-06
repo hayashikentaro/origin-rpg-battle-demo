@@ -130,6 +130,10 @@ func preview_current_actor_commands() -> Array:
 	var labels: Array[String] = []
 	command_inputs.append(_build_command_input("attack", 0, actor))
 	labels.append("ATK")
+	command_inputs.append(_build_command_input("attack_explicit", 0, actor))
+	labels.append("ATKX")
+	command_inputs.append(_build_command_input("attack_slot_probe", 0, actor))
+	labels.append("ATKS")
 	command_inputs.append(_build_command_input("defend", 0, actor))
 	labels.append("DEF")
 	command_inputs.append(_build_command_input("pointer_probe", 0, actor))
@@ -231,6 +235,20 @@ func _build_preview_action_head(action_type: String, ability_index: int, actor: 
 				"arg": 0,
 				"target": 0xFF,
 				"slotIndex": 0,
+			}
+		"attack_explicit":
+			return {
+				"kindId": 0x10,
+				"arg": 0,
+				"target": 0x00,
+				"slotIndex": 0,
+			}
+		"attack_slot_probe":
+			return {
+				"kindId": 0x10,
+				"arg": 0,
+				"target": 0xFF,
+				"slotIndex": 1,
 			}
 		"defend":
 			return {

@@ -33,6 +33,7 @@ function runResolveActorCommandChecks(): void {
     `attack branchModeMeaning mismatch: ${attack.combatDecision?.branchModeMeaning}`
   );
   assert(attack.combatDecision?.branchVariant === undefined, "attack branchVariant should be undefined");
+  assert(attack.combatDecision?.branchVariantBindingStatus === undefined, "attack branchVariantBindingStatus should be undefined");
   assert(attack.postBranchRoute === 0, `attack postBranchRoute mismatch: ${attack.postBranchRoute}`);
   assert(attack.postBranchTargetSource === "slotIndex", `attack postBranchTargetSource mismatch: ${attack.postBranchTargetSource}`);
   assert(attack.pointerFlavor === "shared", `attack pointerFlavor mismatch: ${attack.pointerFlavor}`);
@@ -43,7 +44,7 @@ function runResolveActorCommandChecks(): void {
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
   assert(attack.debugTrace[3]?.startsWith("combat hook "), "attack debugTrace combat-hook order mismatch");
   assert(
-    attack.debugTrace[3]?.includes("variant=--/--"),
+    attack.debugTrace[3]?.includes("variant=--/--") && attack.debugTrace[3]?.includes("binding=--"),
     `attack debugTrace variant wording mismatch: ${attack.debugTrace[3]}`
   );
   assert(attack.debugTrace[4]?.startsWith("post-branch marker="), "attack debugTrace marker order mismatch");
@@ -99,6 +100,14 @@ function runResolveActorCommandChecks(): void {
     `pointerProbe branchVariant mismatch: ${pointerProbe.combatDecision?.branchVariant}`
   );
   assert(
+    pointerProbe.combatDecision?.branchVariantMeaning === "candidate_family_lane_refinement_bit",
+    `pointerProbe branchVariantMeaning mismatch: ${pointerProbe.combatDecision?.branchVariantMeaning}`
+  );
+  assert(
+    pointerProbe.combatDecision?.branchVariantBindingStatus === "deferred_numeric_binding",
+    `pointerProbe branchVariantBindingStatus mismatch: ${pointerProbe.combatDecision?.branchVariantBindingStatus}`
+  );
+  assert(
     typeof pointerProbe.combatDecision?.branchVariantMeaning === "string",
     "pointerProbe branchVariantMeaning missing"
   );
@@ -118,7 +127,8 @@ function runResolveActorCommandChecks(): void {
   assert(pointerProbe.debugTrace[3]?.startsWith("combat hook "), "pointerProbe debugTrace combat-hook order mismatch");
   assert(
     pointerProbe.debugTrace[3]?.includes("variant=") &&
-      pointerProbe.debugTrace[3]?.includes("/" + String(pointerProbe.combatDecision?.branchVariantMeaning)),
+      pointerProbe.debugTrace[3]?.includes("/" + String(pointerProbe.combatDecision?.branchVariantMeaning)) &&
+      pointerProbe.debugTrace[3]?.includes("binding=deferred_numeric_binding"),
     `pointerProbe debugTrace variant wording mismatch: ${pointerProbe.debugTrace[3]}`
   );
   assert(pointerProbe.debugTrace[4]?.startsWith("post-branch marker="), "pointerProbe debugTrace marker order mismatch");

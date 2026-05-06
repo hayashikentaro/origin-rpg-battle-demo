@@ -136,7 +136,7 @@ function describeBranchVariantMeaning(branchVariant) {
     if (branchVariant === undefined) {
         return undefined;
     }
-    return branchVariant === 0 ? "shared_default_leaning" : "candidate_aware_strict_leaning";
+    return "candidate_family_lane_refinement_bit";
 }
 function resolveCombatRngAfterLocalPath(localPath, candidateOffset) {
     const candidatePath = pathNeedsCandidateSelection(localPath);
@@ -147,6 +147,7 @@ function resolveCombatRngAfterLocalPath(localPath, candidateOffset) {
         branchVariant,
         branchModeMeaning: describeBranchMode(localPath),
         branchVariantMeaning: describeBranchVariantMeaning(branchVariant),
+        branchVariantBindingStatus: branchVariant === undefined ? undefined : "deferred_numeric_binding",
         branchVariantCarryMeaning: branchVariant === undefined ? undefined : "same_side_pointer_correspondence",
         debugSource: "unresolved_local_policy",
         pendingWindow: "41E7-41E9 -> 41EB-41EC",
@@ -245,7 +246,7 @@ function resolveActorCommand(input) {
             ? `candidate rng 07/08 => offset=${candidate.offset}`
             : "candidate rng skipped",
         combatDecision
-            ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} carry=${combatDecision.branchVariantCarryMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
+            ? `combat hook accepted=${combatDecision.accepted} branch=${combatDecision.branch}/${combatDecision.branchModeMeaning ?? "--"} variant=${combatDecision.branchVariant ?? "--"}/${combatDecision.branchVariantMeaning ?? "--"} binding=${combatDecision.branchVariantBindingStatus ?? "--"} carry=${combatDecision.branchVariantCarryMeaning ?? "--"} route=${postBranchRoute} source=${combatDecision.debugSource ?? "--"} meaning=${combatDecision.pendingMeaning ?? "--"}`
             : `combat hook skipped route=${postBranchRoute}`,
         `post-branch marker=${postBranchTargetSource} pointer=${pointerFlavor}/${pointerFlavorMeaning}`,
         `target terminal source=${routedTarget.source} => ${routedTarget.target}`

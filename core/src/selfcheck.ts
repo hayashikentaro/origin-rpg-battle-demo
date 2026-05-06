@@ -240,6 +240,30 @@ function runResolveActorCommandChecks(): void {
     `abilityExplicit debugTrace marker/pointer mismatch: ${abilityExplicit.debugTrace[4]}`
   );
 
+  const abilitySlotProbe = resolveActorCommand({
+    actorIndex: 2,
+    action: {
+      kindId: 0x20,
+      arg: 0,
+      target: 0xff,
+      slotIndex: 1
+    },
+    outcomeLikeByte: 0
+  });
+
+  assert(abilitySlotProbe.branch === 32, `abilitySlotProbe branch mismatch: ${abilitySlotProbe.branch}`);
+  assert(abilitySlotProbe.localPath === 0, `abilitySlotProbe localPath mismatch: ${abilitySlotProbe.localPath}`);
+  assert(abilitySlotProbe.postBranchRoute === 0, `abilitySlotProbe postBranchRoute mismatch: ${abilitySlotProbe.postBranchRoute}`);
+  assert(abilitySlotProbe.pointerFlavor === "shared", `abilitySlotProbe pointerFlavor mismatch: ${abilitySlotProbe.pointerFlavor}`);
+  assert(abilitySlotProbe.targetSource === "slotIndex", `abilitySlotProbe targetSource mismatch: ${abilitySlotProbe.targetSource}`);
+  assert(abilitySlotProbe.target === 1, `abilitySlotProbe target mismatch: ${abilitySlotProbe.target}`);
+  assert(abilitySlotProbe.postBranchTargetSource === "slotIndex", `abilitySlotProbe postBranchTargetSource mismatch: ${abilitySlotProbe.postBranchTargetSource}`);
+  assert(
+    abilitySlotProbe.debugTrace[4]?.includes("marker=slotIndex") &&
+      abilitySlotProbe.debugTrace[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
+    `abilitySlotProbe debugTrace marker/pointer mismatch: ${abilitySlotProbe.debugTrace[4]}`
+  );
+
   const matrix = resolveActorCommandMatrix([
     {
       actorIndex: 0,
@@ -265,16 +289,23 @@ function runResolveActorCommandChecks(): void {
       actorIndex: 2,
       action: { kindId: 0x20, arg: 1, target: 0x00, slotIndex: 1 },
       outcomeLikeByte: 0
+    },
+    {
+      actorIndex: 2,
+      action: { kindId: 0x20, arg: 0, target: 0xff, slotIndex: 1 },
+      outcomeLikeByte: 0
     }
   ]);
 
-  assert(matrix.length === 5, `matrix length mismatch: ${matrix.length}`);
+  assert(matrix.length === 6, `matrix length mismatch: ${matrix.length}`);
   assert(matrix[0]?.targetSource === "slotIndex", `matrix[0] targetSource mismatch: ${matrix[0]?.targetSource}`);
   assert(matrix[1]?.targetSource === "explicit", `matrix[1] targetSource mismatch: ${matrix[1]?.targetSource}`);
   assert(matrix[2]?.targetSource === "slotIndex", `matrix[2] targetSource mismatch: ${matrix[2]?.targetSource}`);
   assert(matrix[2]?.target === 1, `matrix[2] target mismatch: ${matrix[2]?.target}`);
   assert(matrix[3]?.targetSource === "candidate", `matrix[3] targetSource mismatch: ${matrix[3]?.targetSource}`);
   assert(matrix[4]?.targetSource === "explicit", `matrix[4] targetSource mismatch: ${matrix[4]?.targetSource}`);
+  assert(matrix[5]?.targetSource === "slotIndex", `matrix[5] targetSource mismatch: ${matrix[5]?.targetSource}`);
+  assert(matrix[5]?.target === 1, `matrix[5] target mismatch: ${matrix[5]?.target}`);
 }
 
 runResolveActorCommandChecks();

@@ -272,6 +272,16 @@ func _find_preview_by_label(label: String) -> Dictionary:
 	return {}
 
 
+func _format_preview_family(label: String) -> String:
+	if label.begins_with("PTR"):
+		return "[CND]"
+	if label.begins_with("DEF"):
+		return "[DEF]"
+	if label.begins_with("ABL"):
+		return "[ABL]"
+	return "[ATK]"
+
+
 func _format_actor_resolve_debug(result: Dictionary) -> String:
 	if result.is_empty():
 		return "DBG --"
@@ -326,6 +336,7 @@ func _format_actor_resolve_debug(result: Dictionary) -> String:
 func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	if result.is_empty():
 		return "%s --" % label
+	var family := _format_preview_family(label)
 	var branch := str(result.get("branch", "--"))
 	var post_branch_route := str(result.get("postBranchRoute", "--"))
 	var local_path := str(result.get("localPath", "--"))
@@ -358,7 +369,8 @@ func _format_command_preview_debug(label: String, result: Dictionary) -> String:
 	decision_variant_carry = str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	decision_source = str(combat_decision.get("debugSource", "--"))
 	decision_meaning = str(combat_decision.get("pendingMeaning", "--"))
-	return "%s b:%s cb:%s/%s cv:%s/%s/%s/%s r:%s m:%s ptr:%s/%s tgt:%s/%s a:%s 07:%s off:%s %s/%s" % [
+	return "%s %s b:%s cb:%s/%s cv:%s/%s/%s/%s r:%s m:%s ptr:%s/%s tgt:%s/%s a:%s 07:%s off:%s %s/%s" % [
+		family,
 		label,
 		branch,
 		decision_branch,
@@ -386,6 +398,7 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var result: Dictionary = preview.get("result", {})
 	if result.is_empty():
 		return "%s --" % label
+	var family := _format_preview_family(label)
 	var post_branch_route := str(result.get("postBranchRoute", "--"))
 	var local_path := str(result.get("localPath", "--"))
 	var post_branch_target_source := str(result.get("postBranchTargetSource", "--"))
@@ -409,7 +422,8 @@ func _format_log_preview_debug(preview: Dictionary) -> String:
 	var decision_variant_carry := str(combat_decision.get("branchVariantCarryMeaning", "--"))
 	var decision_source := str(combat_decision.get("debugSource", "--"))
 	var decision_meaning := str(combat_decision.get("pendingMeaning", "--"))
-	return "%s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s/%s/%s r:%s m:%s ptr:%s/%s tgt:%s/%s 07:%s off:%s src:%s/%s" % [
+	return "%s %s k:%s a:%s s:%s b:%s cb:%s/%s cv:%s/%s/%s/%s r:%s m:%s ptr:%s/%s tgt:%s/%s 07:%s off:%s src:%s/%s" % [
+		family,
 		label,
 		kind_id,
 		arg,

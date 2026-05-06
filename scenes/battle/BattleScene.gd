@@ -228,15 +228,17 @@ func _refresh_enemy_info() -> void:
 	if state == "command" and not actor.is_empty():
 		lines.append("%s %s" % [actor.get("name", ""), _race_label(actor.get("race", ""))])
 		lines.append("HP %d/%d" % [actor.get("hp", 0), actor.get("maxHp", 0)])
-		if _command_previews.size() > 0:
+		var attack_preview := _find_preview_by_label("ATK")
+		if not attack_preview.is_empty():
 			lines.append(_format_command_preview_debug(
-				str(_command_previews[0].get("label", "ATK")),
-				_command_previews[0].get("result", {})
+				str(attack_preview.get("label", "ATK")),
+				attack_preview.get("result", {})
 			))
-		if _command_previews.size() > 2:
+		var pointer_preview := _find_preview_by_label("PTR")
+		if not pointer_preview.is_empty():
 			lines.append(_format_command_preview_debug(
-				str(_command_previews[2].get("label", "PTR")),
-				_command_previews[2].get("result", {})
+				str(pointer_preview.get("label", "PTR")),
+				pointer_preview.get("result", {})
 			))
 	else:
 		lines.append(controller.get_status_summary())
@@ -260,6 +262,13 @@ func _first_alive_enemy() -> Dictionary:
 	for enemy in controller.get_enemy_members():
 		if enemy.get("isAlive", false):
 			return enemy
+	return {}
+
+
+func _find_preview_by_label(label: String) -> Dictionary:
+	for preview in _command_previews:
+		if str(preview.get("label", "")) == label:
+			return preview
 	return {}
 
 

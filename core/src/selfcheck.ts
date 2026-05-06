@@ -44,15 +44,23 @@ function runResolveActorCommandChecks(): void {
   assert(Array.isArray(attack.debugTrace) && attack.debugTrace.length === 6, "attack debugTrace shape mismatch");
   assert(attack.debugTrace[3]?.startsWith("combat hook "), "attack debugTrace combat-hook order mismatch");
   assert(
-    attack.debugTrace[3]?.includes("variant=--/--") && attack.debugTrace[3]?.includes("binding=--"),
+    attack.debugTrace[3]?.includes("variant=--/--") &&
+      attack.debugTrace[3]?.includes("binding=--") &&
+      attack.debugTrace[3]?.includes(`route=${attack.postBranchRoute}`),
     `attack debugTrace variant wording mismatch: ${attack.debugTrace[3]}`
   );
   assert(attack.debugTrace[4]?.startsWith("post-branch marker="), "attack debugTrace marker order mismatch");
   assert(
-    attack.debugTrace[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
+    attack.debugTrace[4]?.includes(`marker=${attack.postBranchTargetSource}`) &&
+      attack.debugTrace[4]?.includes("pointer=shared/shared_default_target_provenance_path"),
     `attack debugTrace pointer meaning mismatch: ${attack.debugTrace[4]}`
   );
-  assert(attack.debugTrace[5]?.startsWith("target terminal "), "attack debugTrace target-terminal order mismatch");
+  assert(
+    attack.debugTrace[5]?.startsWith("target terminal ") &&
+      attack.debugTrace[5]?.includes(`source=${attack.targetSource}`) &&
+      attack.debugTrace[5]?.endsWith(`=> ${attack.target}`),
+    `attack debugTrace target-terminal order mismatch: ${attack.debugTrace[5]}`
+  );
 
   const defend = resolveActorCommand({
     actorIndex: 1,
@@ -128,15 +136,22 @@ function runResolveActorCommandChecks(): void {
   assert(
     pointerProbe.debugTrace[3]?.includes("variant=") &&
       pointerProbe.debugTrace[3]?.includes("/" + String(pointerProbe.combatDecision?.branchVariantMeaning)) &&
-      pointerProbe.debugTrace[3]?.includes("binding=deferred_numeric_binding"),
+      pointerProbe.debugTrace[3]?.includes("binding=deferred_numeric_binding") &&
+      pointerProbe.debugTrace[3]?.includes(`route=${pointerProbe.postBranchRoute}`),
     `pointerProbe debugTrace variant wording mismatch: ${pointerProbe.debugTrace[3]}`
   );
   assert(pointerProbe.debugTrace[4]?.startsWith("post-branch marker="), "pointerProbe debugTrace marker order mismatch");
   assert(
-    pointerProbe.debugTrace[4]?.includes("pointer=candidate/candidate_entry_target_provenance_path"),
+    pointerProbe.debugTrace[4]?.includes(`marker=${pointerProbe.postBranchTargetSource}`) &&
+      pointerProbe.debugTrace[4]?.includes("pointer=candidate/candidate_entry_target_provenance_path"),
     `pointerProbe debugTrace pointer meaning mismatch: ${pointerProbe.debugTrace[4]}`
   );
-  assert(pointerProbe.debugTrace[5]?.startsWith("target terminal "), "pointerProbe debugTrace target-terminal order mismatch");
+  assert(
+    pointerProbe.debugTrace[5]?.startsWith("target terminal ") &&
+      pointerProbe.debugTrace[5]?.includes(`source=${pointerProbe.targetSource}`) &&
+      pointerProbe.debugTrace[5]?.endsWith(`=> ${pointerProbe.target}`),
+    `pointerProbe debugTrace target-terminal order mismatch: ${pointerProbe.debugTrace[5]}`
+  );
 
   const ability = resolveActorCommand({
     actorIndex: 2,

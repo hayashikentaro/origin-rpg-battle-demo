@@ -21,7 +21,7 @@
 - `5F22` で subsystem-entry の前提を整えたあと、`5E77` が visible/update 側を整えてから local seed loop に入る、という順序がもっとも整合する。
 
 ### 2. Existing helper profile
-既報の [saga2_mode_transition_helpers_report.md](/Users/hayashikentarou/Documents/New%20project%204/analysis_updates/saga2_mode_transition_helpers_report.md:1) では `5E77` は:
+既報の [saga2_mode_transition_helpers_report.md](../frontiers/saga2_mode_transition_helpers_report.md) では `5E77` は:
 
 - `FF8B` を条件に分岐
 - `00AC`, `0177`, `0080`, `017A`, `00CA` を通る

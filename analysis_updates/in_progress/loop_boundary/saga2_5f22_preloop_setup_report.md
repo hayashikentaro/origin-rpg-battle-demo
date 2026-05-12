@@ -21,7 +21,7 @@
 - `5E77` が既報どおり render/update 寄り helper なら、`5F22` はそれより前に置かれた setup helper とみるのが自然。
 
 ### 2. Contrast with `5E77`
-既報の [saga2_mode_transition_helpers_report.md](/Users/hayashikentarou/Documents/New%20project%204/analysis_updates/saga2_mode_transition_helpers_report.md:1) では、
+既報の [saga2_mode_transition_helpers_report.md](../frontiers/saga2_mode_transition_helpers_report.md) では、
 `5E77` は:
 
 - `FF8B` 条件分岐

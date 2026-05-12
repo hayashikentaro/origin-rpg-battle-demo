@@ -1,0 +1,136 @@
+# Archived SaGa2 Analysis
+
+Archive files are preserved for traceability.
+
+They may contain outdated wording or superseded intermediate reasoning.
+
+Do not use archive files as current implementation truth unless they are explicitly referenced from confirmed or in_progress docs.
+
+## Archive Categories
+
+## Branchvariant History
+
+Historical branchVariant interpretation passes and unresolved polarity/binding reasoning.
+
+- [saga2_branchvariant_before_routing_report.md](branchvariant_history/saga2_branchvariant_before_routing_report.md)
+- [saga2_branchvariant_binding_decision_rule_report.md](branchvariant_history/saga2_branchvariant_binding_decision_rule_report.md)
+- [saga2_branchvariant_binding_evidence_strategy_report.md](branchvariant_history/saga2_branchvariant_binding_evidence_strategy_report.md)
+- [saga2_branchvariant_binding_subspan_ranking_report.md](branchvariant_history/saga2_branchvariant_binding_subspan_ranking_report.md)
+- [saga2_branchvariant_blocked_shadow_polarity_report.md](branchvariant_history/saga2_branchvariant_blocked_shadow_polarity_report.md)
+- [saga2_branchvariant_code_qualifier_mapping_report.md](branchvariant_history/saga2_branchvariant_code_qualifier_mapping_report.md)
+- [saga2_branchvariant_code_split_anchor_bias_report.md](branchvariant_history/saga2_branchvariant_code_split_anchor_bias_report.md)
+- [saga2_branchvariant_code_split_carry_strength_report.md](branchvariant_history/saga2_branchvariant_code_split_carry_strength_report.md)
+- [saga2_branchvariant_code_split_correspondence_gap_report.md](branchvariant_history/saga2_branchvariant_code_split_correspondence_gap_report.md)
+- [saga2_branchvariant_code_vs_qualifier_bias_report.md](branchvariant_history/saga2_branchvariant_code_vs_qualifier_bias_report.md)
+- [saga2_branchvariant_direct_local_anchor_gap_report.md](branchvariant_history/saga2_branchvariant_direct_local_anchor_gap_report.md)
+- [saga2_branchvariant_direct_mapping_bias_report.md](branchvariant_history/saga2_branchvariant_direct_mapping_bias_report.md)
+- [saga2_branchvariant_hidden_remap_bias_report.md](branchvariant_history/saga2_branchvariant_hidden_remap_bias_report.md)
+- [saga2_branchvariant_minimal_binding_cluster_report.md](branchvariant_history/saga2_branchvariant_minimal_binding_cluster_report.md)
+- [saga2_branchvariant_numeric_polarity_report.md](branchvariant_history/saga2_branchvariant_numeric_polarity_report.md)
+- [saga2_branchvariant_pointer_bias_report.md](branchvariant_history/saga2_branchvariant_pointer_bias_report.md)
+- [saga2_branchvariant_primary_axis_report.md](branchvariant_history/saga2_branchvariant_primary_axis_report.md)
+- [saga2_branchvariant_second_line_carry_report.md](branchvariant_history/saga2_branchvariant_second_line_carry_report.md)
+- [saga2_branchvariant_shared_value_bias_report.md](branchvariant_history/saga2_branchvariant_shared_value_bias_report.md)
+- [saga2_branchvariant_single_side_carry_report.md](branchvariant_history/saga2_branchvariant_single_side_carry_report.md)
+- [saga2_branchvariant_strict_side_polarity_mapping_report.md](branchvariant_history/saga2_branchvariant_strict_side_polarity_mapping_report.md)
+- [saga2_branchvariant_true_side_bias_report.md](branchvariant_history/saga2_branchvariant_true_side_bias_report.md)
+- [saga2_ptr_branchvariant_cardinality_bias_report.md](branchvariant_history/saga2_ptr_branchvariant_cardinality_bias_report.md)
+
+## Post Branch Route History
+
+Earlier postBranchRoute wording and micro-boundary reasoning logs.
+
+- [saga2_post_branch_route_alignment_transfer_report.md](post_branch_route_history/saga2_post_branch_route_alignment_transfer_report.md)
+- [saga2_post_branch_route_anchoring_bias_report.md](post_branch_route_history/saga2_post_branch_route_anchoring_bias_report.md)
+- [saga2_post_branch_route_exact_wording_report.md](post_branch_route_history/saga2_post_branch_route_exact_wording_report.md)
+- [saga2_post_branch_route_micro_boundary_report.md](post_branch_route_history/saga2_post_branch_route_micro_boundary_report.md)
+- [saga2_post_branch_route_refinement_retention_report.md](post_branch_route_history/saga2_post_branch_route_refinement_retention_report.md)
+- [saga2_post_branch_route_subblock_nucleus_report.md](post_branch_route_history/saga2_post_branch_route_subblock_nucleus_report.md)
+- [saga2_post_branch_routing_no_offset_reuse_report.md](post_branch_route_history/saga2_post_branch_routing_no_offset_reuse_report.md)
+- [saga2_post_branch_routing_shared_core_report.md](post_branch_route_history/saga2_post_branch_routing_shared_core_report.md)
+
+## Pointer Flavor History
+
+Earlier pointerFlavor naming and alignment reasoning logs.
+
+- [saga2_pointer_flavor_blocked_ordinal_shadow_report.md](pointer_flavor_history/saga2_pointer_flavor_blocked_ordinal_shadow_report.md)
+- [saga2_pointer_flavor_candidate_family_bias_report.md](pointer_flavor_history/saga2_pointer_flavor_candidate_family_bias_report.md)
+- [saga2_pointer_flavor_code_led_carry_report.md](pointer_flavor_history/saga2_pointer_flavor_code_led_carry_report.md)
+- [saga2_pointer_flavor_cross_acceptance_report.md](pointer_flavor_history/saga2_pointer_flavor_cross_acceptance_report.md)
+- [saga2_pointer_flavor_shared_cross_acceptance_report.md](pointer_flavor_history/saga2_pointer_flavor_shared_cross_acceptance_report.md)
+- [saga2_pointer_flavor_shared_default_report.md](pointer_flavor_history/saga2_pointer_flavor_shared_default_report.md)
+- [saga2_pointer_flavor_strict_polarity_alignment_report.md](pointer_flavor_history/saga2_pointer_flavor_strict_polarity_alignment_report.md)
+
+## Rng Exploration History
+
+Exploratory RNG investigations and superseded narrowing passes.
+
+- [saga2_battle_rng_bc_page_report.md](rng_exploration_history/saga2_battle_rng_bc_page_report.md)
+- [saga2_battle_rng_bridge_followup_report.md](rng_exploration_history/saga2_battle_rng_bridge_followup_report.md)
+- [saga2_battle_rng_bridge_report.md](rng_exploration_history/saga2_battle_rng_bridge_report.md)
+- [saga2_battle_rng_byte49_gap_report.md](rng_exploration_history/saga2_battle_rng_byte49_gap_report.md)
+- [saga2_battle_rng_caller_cluster_report.md](rng_exploration_history/saga2_battle_rng_caller_cluster_report.md)
+- [saga2_battle_rng_cluster_boundary_report.md](rng_exploration_history/saga2_battle_rng_cluster_boundary_report.md)
+- [saga2_battle_rng_de00_consumers_report.md](rng_exploration_history/saga2_battle_rng_de00_consumers_report.md)
+- [saga2_battle_rng_phase_switch_report.md](rng_exploration_history/saga2_battle_rng_phase_switch_report.md)
+- [saga2_battle_rng_prepass_report.md](rng_exploration_history/saga2_battle_rng_prepass_report.md)
+- [saga2_battle_rng_readback_search_report.md](rng_exploration_history/saga2_battle_rng_readback_search_report.md)
+- [saga2_combat_rng_counter_hook_position_report.md](rng_exploration_history/saga2_combat_rng_counter_hook_position_report.md)
+- [saga2_combat_rng_priority_window_report.md](rng_exploration_history/saga2_combat_rng_priority_window_report.md)
+- [saga2_combat_rng_search_targets_report.md](rng_exploration_history/saga2_combat_rng_search_targets_report.md)
+- [saga2_combat_rng_subblock_ranking_report.md](rng_exploration_history/saga2_combat_rng_subblock_ranking_report.md)
+
+## Debug Policy History
+
+Historical preview/debug policy exploration before the current operational policy settled.
+
+- [saga2_debug_command_matrix_report.md](debug_policy_history/saga2_debug_command_matrix_report.md)
+- [saga2_preview_matrix_ability_explicit_snapshot_report.md](debug_policy_history/saga2_preview_matrix_ability_explicit_snapshot_report.md)
+- [saga2_preview_matrix_ability_slot_snapshot_report.md](debug_policy_history/saga2_preview_matrix_ability_slot_snapshot_report.md)
+- [saga2_preview_matrix_coverage_snapshot_report.md](debug_policy_history/saga2_preview_matrix_coverage_snapshot_report.md)
+- [saga2_preview_matrix_expansion_policy_report.md](debug_policy_history/saga2_preview_matrix_expansion_policy_report.md)
+
+## Wording History
+
+Superseded wording, ranking, bias, and alignment logs preserved for traceability.
+
+- [saga2_019e_outcome_semantics_bias_report.md](wording_history/saga2_019e_outcome_semantics_bias_report.md)
+- [saga2_019e_writeback_candidate_ranking_report.md](wording_history/saga2_019e_writeback_candidate_ranking_report.md)
+- [saga2_attack_false_branchvariant_absence_bias_report.md](wording_history/saga2_attack_false_branchvariant_absence_bias_report.md)
+- [saga2_branch_code_consumer_bias_report.md](wording_history/saga2_branch_code_consumer_bias_report.md)
+- [saga2_branch_pair_alignment_report.md](wording_history/saga2_branch_pair_alignment_report.md)
+- [saga2_branch_to_state04_05_alignment_report.md](wording_history/saga2_branch_to_state04_05_alignment_report.md)
+- [saga2_candidate_offset_branch_field_alignment_report.md](wording_history/saga2_candidate_offset_branch_field_alignment_report.md)
+- [saga2_candidate_offset_small_ordinal_bias_report.md](wording_history/saga2_candidate_offset_small_ordinal_bias_report.md)
+- [saga2_candidate_offset_twoway_bucket_bias_report.md](wording_history/saga2_candidate_offset_twoway_bucket_bias_report.md)
+- [saga2_candidate_offset_value_range_bias_report.md](wording_history/saga2_candidate_offset_value_range_bias_report.md)
+- [saga2_candidate_path_consume_bypass_alignment_report.md](wording_history/saga2_candidate_path_consume_bypass_alignment_report.md)
+- [saga2_ch_pair_field_family_alignment_report.md](wording_history/saga2_ch_pair_field_family_alignment_report.md)
+- [saga2_combat_decision_consumer_ranking_report.md](wording_history/saga2_combat_decision_consumer_ranking_report.md)
+- [saga2_combat_decision_fallback_ranking_report.md](wording_history/saga2_combat_decision_fallback_ranking_report.md)
+- [saga2_effective_slot_timing_bias_report.md](wording_history/saga2_effective_slot_timing_bias_report.md)
+- [saga2_handoff_edge_wording_bias_report.md](wording_history/saga2_handoff_edge_wording_bias_report.md)
+- [saga2_layer_naming_symmetry_report.md](wording_history/saga2_layer_naming_symmetry_report.md)
+- [saga2_outcome_like_meaning_ranking_report.md](wording_history/saga2_outcome_like_meaning_ranking_report.md)
+- [saga2_pointer_visibility_pair_alignment_report.md](wording_history/saga2_pointer_visibility_pair_alignment_report.md)
+- [saga2_ptr_candidate_offset_branch_bias_report.md](wording_history/saga2_ptr_candidate_offset_branch_bias_report.md)
+- [saga2_ptr_candidate_offset_branch_code_bias_report.md](wording_history/saga2_ptr_candidate_offset_branch_code_bias_report.md)
+- [saga2_ptr_candidate_offset_fallback_bias_report.md](wording_history/saga2_ptr_candidate_offset_fallback_bias_report.md)
+- [saga2_ptr_false_branch_variant_count_bias_report.md](wording_history/saga2_ptr_false_branch_variant_count_bias_report.md)
+- [saga2_ptr_false_fallback_bias_report.md](wording_history/saga2_ptr_false_fallback_bias_report.md)
+- [saga2_ptr_pointer_persistence_bias_report.md](wording_history/saga2_ptr_pointer_persistence_bias_report.md)
+- [saga2_ptr_target_source_recompute_bias_report.md](wording_history/saga2_ptr_target_source_recompute_bias_report.md)
+- [saga2_qualifier_zero_variant_asymmetry_report.md](wording_history/saga2_qualifier_zero_variant_asymmetry_report.md)
+- [saga2_reopening_onset_wording_split_report.md](wording_history/saga2_reopening_onset_wording_split_report.md)
+- [saga2_route_core_pointer_bias_report.md](wording_history/saga2_route_core_pointer_bias_report.md)
+- [saga2_second_line_hidden_layer_bias_report.md](wording_history/saga2_second_line_hidden_layer_bias_report.md)
+- [saga2_special_candidate_origin_bias_report.md](wording_history/saga2_special_candidate_origin_bias_report.md)
+- [saga2_step6_execution_alignment_report.md](wording_history/saga2_step6_execution_alignment_report.md)
+- [saga2_strict_polarity_cross_acceptance_report.md](wording_history/saga2_strict_polarity_cross_acceptance_report.md)
+- [saga2_target_pair_alignment_explanatory_power_report.md](wording_history/saga2_target_pair_alignment_explanatory_power_report.md)
+
+## Misc History
+
+Reserved for preserved historical reports that do not fit the main history families.
+
+- No files currently classified here.

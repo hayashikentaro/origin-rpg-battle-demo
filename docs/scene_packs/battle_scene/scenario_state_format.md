@@ -77,11 +77,19 @@ Generated or bulky captures should stay outside committed source unless promoted
 
 - Hex byte fields should use `0xNN`.
 - Hex word fields should use `0xNNNN`.
+- ROM file offsets should use `0xNNNNNN`.
 - Banked ROM addresses should use `BB:AAAA`.
+- Hex digits should be uppercase.
 - Unknown runtime values must be the string `unknown`, not guessed zeroes.
 - `status` must be one of `confirmed`, `working_model`, `in_progress`, `unknown`, or `rejected`.
 - `record_offset` is a ROM file offset; `record_bytes` is the raw command/action record.
 - `visible_label` is allowed only when the text-table join is documented or the value is explicitly marked as a display-side hypothesis.
+
+Validate committed fixtures with:
+
+```bash
+python3 -B tools/validate_battle_scenarios.py
+```
 
 ## Minimum Viable Scenario
 

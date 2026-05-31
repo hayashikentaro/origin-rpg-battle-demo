@@ -23,3 +23,9 @@ Use `docs/scene_packs/` as the first stop for scene-specific work.
 When adding scene-specific offsets, generated artifacts, runtime-state assumptions, implementation notes, or open questions, update the relevant scene pack in the same change. If no pack exists for that scene, create a small pack with a `README.md` and `open_questions.md` before adding broad notes elsewhere.
 
 Scene packs should link to heavy historical reports instead of duplicating them. They should stay small enough for future Codex/GPT sessions to read first.
+
+When changing battle scene scenario fixture JSON under `docs/scene_packs/battle_scene/scenarios/`, validate it with:
+
+```bash
+python3 -B tools/validate_battle_scenarios.py
+```

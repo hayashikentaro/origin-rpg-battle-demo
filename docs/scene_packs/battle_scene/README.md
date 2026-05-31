@@ -44,3 +44,9 @@ If battle-scene files, generated artifacts, offsets, or open questions change, u
 ```bash
 python3 -B tools/update_directory_indexes.py
 ```
+
+If scenario fixture JSON changes, also run:
+
+```bash
+python3 -B tools/validate_battle_scenarios.py
+```

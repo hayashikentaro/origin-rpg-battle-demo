@@ -11,7 +11,8 @@ Reconstruct and eventually simulate the SaGa2 battle scene with traceable ROM-de
 3. `text_window.md`
 4. `command_flow.md`
 5. `runtime_state.md`
-6. `open_questions.md`
+6. `scenario_state_format.md`
+7. `open_questions.md`
 
 ## Current Status
 
@@ -19,7 +20,7 @@ Reconstruct and eventually simulate the SaGa2 battle scene with traceable ROM-de
 - Static enemy graphics preload/draw: working_model.
 - Window/font/text pipeline: working_model.
 - Battle command/effect execution: in_progress.
-- Runtime-exact battle simulation: blocked on scenario state or a fuller no-emulator VM/state model.
+- Runtime-exact battle simulation: in_progress; `scenario_state_format.md` defines the explicit inputs needed for no-emulator replay/enumeration.
 
 ## Do Not Read By Default
 
@@ -32,6 +33,7 @@ Reconstruct and eventually simulate the SaGa2 battle scene with traceable ROM-de
 - ROM binary package: `../../binary_analysis/saga2_rom_binary_analysis_package.md`
 - Current scene artifacts: `generated_artifacts.md`
 - Current blockers: `open_questions.md`
+- Small scenario fixtures: `scenarios/`
 
 ## Maintenance Rule
 

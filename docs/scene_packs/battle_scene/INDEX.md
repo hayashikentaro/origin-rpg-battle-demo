@@ -4,7 +4,7 @@
 
 ## Subdirectories
 
-- none
+- `scenarios/`
 
 ## Files
 
@@ -16,4 +16,5 @@
 - `needed_rom_offsets.md` - Markdown document
 - `open_questions.md` - Markdown document
 - `runtime_state.md` - Markdown document
+- `scenario_state_format.md` - Markdown document
 - `text_window.md` - Markdown document

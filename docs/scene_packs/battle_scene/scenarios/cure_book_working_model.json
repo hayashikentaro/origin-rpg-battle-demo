@@ -1,0 +1,43 @@
+{
+  "schema": "saga2.battle_scene.scenario_state.v0",
+  "status": "working_model",
+  "case_id": "cure_book_working_model",
+  "source": {
+    "rom": "SaGa 2 - Hihou Densetsu (J) (V1.1)",
+    "notes": "Static-analysis scenario fixture; runtime seed and HP are intentionally unknown."
+  },
+  "command": {
+    "selected_record_id_cff0": "0x24",
+    "source_flag_cff1": "unknown",
+    "record_offset": "0x032FA0",
+    "record_bytes": "83 00 00 00 04 00 A3 33",
+    "visible_label": "ケアルのしょ"
+  },
+  "targeting": {
+    "target_token_cff3": "0x00",
+    "lane_byte_c2a0": "0xE4",
+    "resolved_cf94": "0x00",
+    "destination_base": "0xC207",
+    "destination_pointer": "0xC207"
+  },
+  "rng": {
+    "seed05_entry": "unknown",
+    "rng_table_bank_addr": "0F:4000",
+    "rng_table_file_offset": "0x03C000"
+  },
+  "state_before": {
+    "destination_hp": "unknown",
+    "party_actor_records": "unknown",
+    "enemy_pages": "unknown"
+  },
+  "expected_effect": {
+    "route": "S00",
+    "amount_expression": "data_rng[(seed05 + 1) & 0xFF] + 4",
+    "write": "uint16(destination_pointer) += amount"
+  },
+  "open_questions": [
+    "Confirm CFF1 semantics.",
+    "Prove visible command label to CFF0 join.",
+    "Supply concrete seed05 and destination HP from a real or modeled state."
+  ]
+}

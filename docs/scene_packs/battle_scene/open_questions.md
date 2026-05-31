@@ -4,7 +4,7 @@
 
 - Separate committed/canonical artifacts from local generated artifacts under `build/`.
 - Decide whether `build/rom_extracts/` should be committed, regenerated, or moved under a clearer artifact namespace.
-- Define a scenario-state file format for no-emulator battle replay.
+- Add committed scenario fixtures once concrete runtime values are known.
 - Prove visible command label to selected `CFF0` join.
 - Resolve normal attack entry and the `S31 -> 0C:50CC` route.
 
@@ -25,6 +25,7 @@
 - Determine how `$C2A0` is produced in battle contexts.
 - Model seed05 entry value for deterministic replay.
 - Confirm whether phase0A `CF94/CF95` writes can feed later S00 routes.
+- Fill `scenario_state_format.md` fields from either a live capture or a fuller no-emulator state model.
 
 ## Repository Organization
 

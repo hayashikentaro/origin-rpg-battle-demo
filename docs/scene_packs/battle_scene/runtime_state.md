@@ -34,6 +34,7 @@ Default `$C2A0=E4` maps target tokens `00/01/02/03/04` to `CF94=00/20/40/60/80`.
 ## Implementation Relevance
 
 - Replay code should accept explicit scenario state.
+- Scenario state should follow `scenario_state_format.md`.
 - Static ROM analysis can enumerate possible outcomes, but must not pretend to know the user's exact target/RNG state without inputs.
 - Runtime state should be isolated from ROM constants.
 

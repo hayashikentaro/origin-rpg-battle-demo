@@ -12,7 +12,8 @@ Reconstruct and eventually simulate the SaGa2 battle scene with traceable ROM-de
 4. `command_flow.md`
 5. `runtime_state.md`
 6. `scenario_state_format.md`
-7. `open_questions.md`
+7. `artifact_policy.md`
+8. `open_questions.md`
 
 ## Current Status
 
@@ -32,6 +33,7 @@ Reconstruct and eventually simulate the SaGa2 battle scene with traceable ROM-de
 
 - ROM binary package: `../../binary_analysis/saga2_rom_binary_analysis_package.md`
 - Current scene artifacts: `generated_artifacts.md`
+- Artifact commit policy: `artifact_policy.md`
 - Current blockers: `open_questions.md`
 - Small scenario fixtures: `scenarios/`
 

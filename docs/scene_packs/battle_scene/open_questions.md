@@ -2,8 +2,7 @@
 
 ## Highest Priority
 
-- Separate committed/canonical artifacts from local generated artifacts under `build/`.
-- Decide whether `build/rom_extracts/` should be committed, regenerated, or moved under a clearer artifact namespace.
+- Decide which, if any, local `build/rom_extracts/` outputs should be promoted to small committed fixtures.
 - Add committed scenario fixtures once concrete runtime values are known.
 - Prove visible command label to selected `CFF0` join.
 - Resolve normal attack entry and the `S31 -> 0C:50CC` route.

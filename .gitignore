@@ -2,4 +2,8 @@
 .godot/
 .DS_Store
 build/*.app/
+build/rom_extracts/**
+!build/rom_extracts/
+!build/rom_extracts/**/
+!build/rom_extracts/**/INDEX.md
 *.uid

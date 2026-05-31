@@ -12,7 +12,7 @@ mixed
 
 ## Untracked / Local Artifacts Seen In This Workspace
 
-These are useful but should be reviewed before committing:
+These are useful local extraction products, but are ignored by default under `artifact_policy.md`:
 
 - `../../../build/rom_extracts/map0_preload37/`
 - `../../../build/rom_extracts/music_anchor_7aee/`
@@ -26,5 +26,6 @@ These are useful but should be reviewed before committing:
 ## Notes
 
 - `build/binary_analysis/` currently contains committed analysis artifacts.
-- `build/rom_extracts/` currently appears to contain local extraction products; decide whether they are canonical artifacts before relying on them from scene packs.
+- `build/rom_extracts/` is the local generated-output namespace for ROM extraction experiments.
+- Promote only small, reviewed artifacts that answer a current scene-pack question.
 - Avoid committing ROM files. Store derived analysis packages, manifests, and small previews instead.

@@ -10,6 +10,7 @@
 
 - `INDEX.md` - generated directory inventory
 - `README.md` - human-maintained overview
+- `artifact_policy.md` - Markdown document
 - `command_flow.md` - Markdown document
 - `generated_artifacts.md` - Markdown document
 - `graphics.md` - Markdown document

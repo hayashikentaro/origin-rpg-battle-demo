@@ -51,6 +51,18 @@ When runtime capture is unavailable, treat these as scenario inputs:
 
 Then enumerate outcomes rather than claiming a live playthrough.
 
+The current committed helper for this is:
+
+```bash
+python3 -B tools/evaluate_battle_scenario.py
+```
+
+For an exact seed / HP check:
+
+```bash
+python3 -B tools/evaluate_battle_scenario.py --seed05 0x00 --destination-hp 0x0010
+```
+
 ## Open Questions
 
 - Final `CFF1` semantics.

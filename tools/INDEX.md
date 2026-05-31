@@ -10,6 +10,7 @@
 
 - `INDEX.md` - generated directory inventory
 - `build_binary_analysis_package.py` - Python tool/script
+- `evaluate_battle_scenario.py` - Python tool/script
 - `extract_rom_music_anchor.py` - Python tool/script
 - `extract_rom_preload_stage.py` - Python tool/script
 - `update_directory_indexes.py` - Python tool/script

@@ -91,6 +91,12 @@ Validate committed fixtures with:
 python3 -B tools/validate_battle_scenarios.py
 ```
 
+Evaluate the current S00 working fixture against the committed ROM hexdump with:
+
+```bash
+python3 -B tools/evaluate_battle_scenario.py
+```
+
 ## Minimum Viable Scenario
 
 A replay/enumeration tool can start with:

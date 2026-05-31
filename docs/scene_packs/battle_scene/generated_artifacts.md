@@ -20,6 +20,7 @@ These are useful local extraction products, but are ignored by default under `ar
 ## Tools
 
 - `../../../tools/build_binary_analysis_package.py`
+- `../../../tools/evaluate_battle_scenario.py`
 - `../../../tools/extract_rom_preload_stage.py`
 - `../../../tools/extract_rom_music_anchor.py`
 

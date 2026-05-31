@@ -11,3 +11,4 @@
 - `INDEX.md` - generated directory inventory
 - `README.md` - human-maintained overview
 - `open_questions.md` - Markdown document
+- `resource_offsets.md` - Markdown document

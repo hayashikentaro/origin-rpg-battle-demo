@@ -4,6 +4,10 @@ These reports are considered current working truth.
 
 When wording conflicts, confirmed files override archive files.
 
+For scene-specific work, read `../../docs/scene_packs/README.md` first. Scene packs point to the small set of confirmed reports, active questions, and archive references needed for that scene.
+
+Do not start from archive directories unless a confirmed summary, in-progress topic, or scene pack links to a specific report.
+
 ## Canonical Wording
 
 Canonical wording, current snapshots, and consolidated handoff docs.

@@ -11,13 +11,16 @@ Keep music and audio resource investigation separate from battle graphics/text/c
 ## Read First
 
 1. `open_questions.md`
-2. `../battle_scene/generated_artifacts.md`
+2. `resource_offsets.md`
+3. `artifacts.md`
+4. `../battle_scene/generated_artifacts.md`
 
 ## Current Model
 
 - `0x7AEE` is a current music anchor extraction range.
 - The local `build/rom_extracts/music_anchor_7aee/` output is useful exploration material but is not committed as canonical data.
 - Music script ownership and playback semantics are not yet summarized as an implementation-facing spec.
+- Current music anchor details are summarized in `resource_offsets.md`.
 
 ## Implementation Relevance
 

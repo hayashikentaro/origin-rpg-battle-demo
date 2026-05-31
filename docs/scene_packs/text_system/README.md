@@ -11,7 +11,8 @@ Keep text encoding, font, dakuten/handakuten composition, and window text render
 ## Read First
 
 1. `open_questions.md`
-2. `../battle_scene/text_window.md`
+2. `resource_offsets.md`
+3. `../battle_scene/text_window.md`
 
 ## Current Model
 
@@ -19,6 +20,7 @@ Keep text encoding, font, dakuten/handakuten composition, and window text render
 - `4E-75` dakuten compound table is currently modeled at `0F:7AA0`.
 - `76-7F` handakuten compound table is currently modeled at `0F:7AC8`.
 - `FF` is used as padding/terminator in fixed-width records.
+- Current implementation-facing offsets are summarized in `resource_offsets.md`.
 
 ## Implementation Relevance
 

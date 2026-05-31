@@ -9,6 +9,7 @@
 ## Files
 
 - `INDEX.md` - generated directory inventory
+- `README.md` - human-maintained overview
 - `saga2_00d2_battle_callers_report.md` - Markdown document
 - `saga2_0180_0183_value_adjust_report.md` - Markdown document
 - `saga2_0198_cross_cluster_report.md` - Markdown document

@@ -4,6 +4,8 @@ Scene packs are small entrypoints for work on one concrete game scene.
 
 Use them before opening broad analysis archives. A scene pack should say what is needed for the scene, what is already known, what remains unknown, and which generated artifacts are useful.
 
+Scene packs are not a replacement for confirmed analysis. They are compact routing pages that link to confirmed, in-progress, archive, and tool files only when the scene needs them.
+
 ## Read Order
 
 1. Pick the scene directory.

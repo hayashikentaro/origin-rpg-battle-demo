@@ -11,13 +11,16 @@ Collect map-scene knowledge separately from battle-scene reconstruction so futur
 ## Read First
 
 1. `open_questions.md`
-2. `../../artifact_boundaries.md`
+2. `resource_offsets.md`
+3. `artifacts.md`
+4. `../../artifact_boundaries.md`
 
 ## Current Model
 
 - Map resource storage and runtime reconstruction remain less organized than battle-scene work.
 - Existing map/object preload proof artifacts are local generated outputs under `build/rom_extracts/map0_preload37/`.
 - Durable conclusions should be summarized here before broad historical reports are read.
+- Current proof-case offsets and extraction model are summarized in `resource_offsets.md`.
 
 ## Do Not Read By Default
 

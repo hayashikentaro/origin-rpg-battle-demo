@@ -6,7 +6,7 @@
 - Confirm door record final format.
 - Confirm NPC placement data ownership.
 - Confirm tile trigger conditions.
-- Decide whether any `map0_preload37` local artifacts should become small committed fixtures.
+- Decode map preload output into a small manifest before promoting any `map0_preload37` artifact.
 
 ## Artifact Handling
 

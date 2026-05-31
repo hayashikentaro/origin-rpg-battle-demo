@@ -39,5 +39,5 @@ Important anchors:
 
 ## Historical References
 
-- `../../../analysis_updates/in_progress/frontiers/saga2_1551_selector_terminal_report.md`
-- `../../../analysis_updates/in_progress/frontiers/saga2_name_table_caller_classification_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_1551_selector_terminal_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_name_table_caller_classification_report.md`

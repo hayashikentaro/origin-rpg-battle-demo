@@ -1,5 +1,11 @@
 .obsidian/
 .godot/
+.godot-sdk/
+.dotnet-home/
+.home/
+.nuget/
+.cache/
+.config/
 .DS_Store
 build/*.app/
 build/rom_extracts/**

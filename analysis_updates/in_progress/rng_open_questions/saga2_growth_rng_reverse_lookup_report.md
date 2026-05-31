@@ -50,10 +50,10 @@ restore bank
 
 ### 解釈
 
-- `random_seeds` は [common.i](/Users/hayashikentarou/Documents/saga-analyze/rom/common.i:59) で `$C0A0`
+- `random_seeds` は `common.i` で `$C0A0`
 - low byte は increment 後の seed 値
 - high byte `$40` と bank `$0F` により、参照先は `0F:40xx`
-- `data.s` では `0F:4000` が [data_rng](/Users/hayashikentarou/Documents/saga-analyze/rom/data.s:131)
+- `data.s` では `0F:4000` が `data_rng`
 
 したがって、このルーチンは
 

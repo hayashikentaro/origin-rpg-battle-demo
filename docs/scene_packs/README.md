@@ -14,6 +14,10 @@ Use them before opening broad analysis archives. A scene pack should say what is
 ## Current Packs
 
 - `battle_scene/` - battle screen reconstruction and command/effect execution.
+- `map_scene/` - map headers, door records, NPC placement, tile triggers, and map preload artifacts.
+- `monster_graphics/` - monster/enemy graphics extraction and rendering metadata.
+- `music_audio/` - BGM/music anchors and audio resource decoding.
+- `text_system/` - custom text encoding, font, dakuten/handakuten, and text renderer rules.
 
 ## Rule
 

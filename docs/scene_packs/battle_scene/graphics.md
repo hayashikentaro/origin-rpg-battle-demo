@@ -37,6 +37,6 @@ Current anchors:
 
 ## Historical References
 
-- `../../../analysis_updates/in_progress/frontiers/saga2_rom_gfx_preload_bridge_report.md`
-- `../../../analysis_updates/in_progress/frontiers/saga2_rom_image_first_proof_case_report.md`
-- `../../../analysis_updates/in_progress/frontiers/saga2_battle_runtime_entry_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_rom_gfx_preload_bridge_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_rom_image_first_proof_case_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_battle_runtime_entry_report.md`

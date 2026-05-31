@@ -5,6 +5,10 @@
 ## Subdirectories
 
 - `battle_scene/`
+- `map_scene/`
+- `monster_graphics/`
+- `music_audio/`
+- `text_system/`
 
 ## Files
 

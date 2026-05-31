@@ -72,6 +72,6 @@ python3 -B tools/evaluate_battle_scenario.py --seed05 0x00 --destination-hp 0x00
 
 ## Historical References
 
-- `../../../analysis_updates/in_progress/frontiers/saga2_battle_action_class_prepass_report.md`
+- `../../../analysis_updates/archive/frontier_history/saga2_battle_action_class_prepass_report.md`
 - `../../../analysis_updates/in_progress/normal_attack/saga2_normal_attack_entry_gap_report.md`
 - `../../../analysis_updates/confirmed/descriptors/saga2_battle_descriptor_field_mapping_report.md`

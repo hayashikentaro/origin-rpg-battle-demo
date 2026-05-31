@@ -5,7 +5,6 @@
 ## Subdirectories
 
 - `c2xx/`
-- `frontiers/`
 - `gaps/`
 - `loop_boundary/`
 - `normal_attack/`

@@ -8,6 +8,13 @@ Do not use archive files as current implementation truth unless they are explici
 
 ## Archive Categories
 
+## Frontier History
+
+Broad historical frontier/search logs moved out of `in_progress/`.
+
+- Use only when a scene pack or active topic explicitly links to a specific file.
+- Current path: `frontier_history/`
+
 ## Branchvariant History
 
 Historical branchVariant interpretation passes and unresolved polarity/binding reasoning.

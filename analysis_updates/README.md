@@ -3,7 +3,7 @@
 This directory is divided into three tiers:
 
 - [`confirmed/`](confirmed/README.md): current canonical knowledge, stable contracts, and current snapshots.
-- [`in_progress/`](in_progress/README.md): unresolved investigation, active frontiers, and working gaps.
+- [`in_progress/`](in_progress/README.md): active unresolved questions and working gaps.
 - [`archive/`](archive/README.md): historical reasoning preserved for traceability.
 
 ## Read Order

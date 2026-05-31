@@ -30,4 +30,4 @@
 
 - Move or mirror scene-relevant current knowledge into scene packs.
 - Keep broad historical logs under `analysis_updates/archive/`.
-- Avoid making future sessions read `analysis_updates/in_progress/frontiers/` unless a scene pack points to a specific file.
+- Avoid making future sessions read `analysis_updates/archive/frontier_history/` unless a scene pack points to a specific file.

@@ -8,12 +8,8 @@
 - `assets/`
 - `build/`
 - `core/`
-- `data/`
 - `docs/`
 - `migration_docs/`
-- `scenes/`
-- `scripts/`
-- `tests/`
 - `tools/`
 
 ## Files
@@ -21,8 +17,4 @@
 - `.gitignore` - file
 - `AGENTS.md` - repository working rules
 - `INDEX.md` - generated directory inventory
-- `NuGet.Config` - file
 - `README.md` - human-maintained overview
-- `SecurityDefensePrototype.csproj` - file
-- `export_presets.cfg` - Godot project/scene config
-- `project.godot` - Godot project/scene config

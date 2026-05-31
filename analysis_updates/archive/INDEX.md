@@ -6,6 +6,7 @@
 
 - `branchvariant_history/`
 - `debug_policy_history/`
+- `frontier_history/`
 - `misc_history/`
 - `pointer_flavor_history/`
 - `post_branch_route_history/`

@@ -1,0 +1,535 @@
+{
+  "metadata": {
+    "file_name": "SaGa 2 - Hihou Densetsu (J) (V1.1).gb",
+    "file_size": 262144,
+    "sha256": "31477ea9ae09d98e4170938d91ba5a9f5ab94072db4c289988882e0de7e48851",
+    "format_platform": "Nintendo Game Boy ROM cartridge image",
+    "suspected_encoding": "Game Boy cartridge header ASCII plus SaGa2 custom Japanese text encoding for in-game text",
+    "endianness": "LR35902 little-endian for 16-bit code/data pointers; header global checksum is stored big-endian",
+    "base_address_load_address": "ROM bank 00 maps to CPU 0000-3FFF; switchable ROM banks map to CPU 4000-7FFF through MBC1",
+    "target_question": "Convert the SaGa2 ROM into a compact binary analysis package for future offset, table, pointer, text, resource, and porting work."
+  },
+  "header": {
+    "entry": "00 c3 00 02",
+    "title_raw": "53 41 47 41 32 00 00 00 00 00 00 00 00 00 00 00",
+    "title_ascii": "SAGA2",
+    "cgb_flag": "0x00",
+    "new_licensee": "00 00",
+    "sgb_flag": "0x00",
+    "cartridge_type": "0x03",
+    "cartridge_type_name": "MBC1+RAM+BATTERY",
+    "rom_size_code": "0x03",
+    "rom_size_name": "256 KiB / 16 banks",
+    "ram_size_code": "0x02",
+    "ram_size_name": "8 KiB",
+    "destination_code": "0x00",
+    "old_licensee": "0xC3",
+    "mask_rom_version": "0x01",
+    "header_checksum_stored": "0xCD",
+    "header_checksum_computed": "0xCD",
+    "header_checksum_ok": true,
+    "global_checksum_stored": "0x414E",
+    "global_checksum_computed": "0x414E",
+    "global_checksum_ok": true
+  },
+  "offset_map": [
+    {
+      "offset": 0,
+      "length": 256,
+      "type": "code/header",
+      "value": "RST/vector area + fixed-bank startup surface",
+      "note": "Game Boy fixed bank"
+    },
+    {
+      "offset": 256,
+      "length": 4,
+      "type": "header",
+      "value": "00 c3 00 02",
+      "note": "cartridge entry point"
+    },
+    {
+      "offset": 260,
+      "length": 48,
+      "type": "header",
+      "value": "Nintendo logo",
+      "note": "validated by boot ROM"
+    },
+    {
+      "offset": 308,
+      "length": 16,
+      "type": "header",
+      "value": "SAGA2...........",
+      "note": "title / flags overlap area"
+    },
+    {
+      "offset": 327,
+      "length": 1,
+      "type": "header",
+      "value": "0x03",
+      "note": "cartridge type"
+    },
+    {
+      "offset": 328,
+      "length": 1,
+      "type": "header",
+      "value": "0x03",
+      "note": "ROM size code"
+    },
+    {
+      "offset": 329,
+      "length": 1,
+      "type": "header",
+      "value": "0x02",
+      "note": "RAM size code"
+    },
+    {
+      "offset": 16384,
+      "length": 16384,
+      "type": "bank",
+      "value": "ROM bank 01",
+      "note": "switchable CPU window 4000-7FFF"
+    },
+    {
+      "offset": 49152,
+      "length": 256,
+      "type": "gfx?",
+      "value": "bank03:4000 first map preload block source",
+      "note": "used by current preload proof extraction"
+    },
+    {
+      "offset": 67328,
+      "length": 2304,
+      "type": "gfx/font?",
+      "value": "bank04:4700",
+      "note": "copied to VRAM 9700 by battle display setup candidate"
+    },
+    {
+      "offset": 123840,
+      "length": 32,
+      "type": "map/object stream?",
+      "value": "00 0f 43 06 f8 91 18 0b 04 c6 5e f0 11 11 44 c6 03 f1 80 60 22 c1 43 f9 80 61 24 c2 46 f9 80 62",
+      "note": "map0 preload proof object stream opening"
+    },
+    {
+      "offset": 31470,
+      "length": 128,
+      "type": "music?",
+      "value": "04 41 42 01 02 1f 03 23 1f 41 42 1f 43 63 9f 02 00 20 9f 04 40 60 9f 03 1f 01 02 03 23 9f 02 41 ...",
+      "note": "current music anchor extraction range"
+    },
+    {
+      "offset": 208768,
+      "length": 1024,
+      "type": "table",
+      "value": "data_items / action records",
+      "note": "8-byte records; CFF0 index uses helper 00:0067"
+    },
+    {
+      "offset": 212608,
+      "length": 384,
+      "type": "table",
+      "value": "data_item_usage",
+      "note": "item/action usage-side table candidate"
+    },
+    {
+      "offset": 245760,
+      "length": 256,
+      "type": "table",
+      "value": "data_rng",
+      "note": "RNG lookup table"
+    },
+    {
+      "offset": 255552,
+      "length": 2048,
+      "type": "text table",
+      "value": "data_item_names",
+      "note": "8-byte custom text records"
+    }
+  ],
+  "decoded_candidates": {
+    "strings": [
+      {
+        "offset": 308,
+        "raw_bytes": "53 41 47 41 32 00 00 00 00 00 00 00 00 00 00 00",
+        "decoded": "SAGA2",
+        "confidence": 0.95
+      },
+      {
+        "offset": 255840,
+        "raw_bytes": "c4 bc e4 a2 95 bb ff ff",
+        "decoded": "custom text record; known current label: ケアルのしょ",
+        "confidence": 0.8
+      },
+      {
+        "offset": 255552,
+        "raw_bytes": "71 cf e4 d5 e9 da f2 ff",
+        "decoded": "custom text table first record",
+        "confidence": 0.5
+      }
+    ],
+    "pointers": [
+      {
+        "offset": 0,
+        "raw": "c5 06",
+        "interpreted_address": "0x06C5",
+        "target_offset": 1733,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 2,
+        "raw": "00 4f",
+        "interpreted_address": "0x4F00",
+        "target_offset": null,
+        "note": "banked pointer candidate; active MBC bank required"
+      },
+      {
+        "offset": 3,
+        "raw": "4f 09",
+        "interpreted_address": "0x094F",
+        "target_offset": 2383,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 8,
+        "raw": "c3 21",
+        "interpreted_address": "0x21C3",
+        "target_offset": 8643,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 9,
+        "raw": "21 09",
+        "interpreted_address": "0x0921",
+        "target_offset": 2337,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 19,
+        "raw": "f2 16",
+        "interpreted_address": "0x16F2",
+        "target_offset": 5874,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 32,
+        "raw": "c3 19",
+        "interpreted_address": "0x19C3",
+        "target_offset": 6595,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 33,
+        "raw": "19 08",
+        "interpreted_address": "0x0819",
+        "target_offset": 2073,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 42,
+        "raw": "b1 04",
+        "interpreted_address": "0x04B1",
+        "target_offset": 1201,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 48,
+        "raw": "c3 01",
+        "interpreted_address": "0x01C3",
+        "target_offset": 451,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 49,
+        "raw": "01 07",
+        "interpreted_address": "0x0701",
+        "target_offset": 1793,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 56,
+        "raw": "c3 38",
+        "interpreted_address": "0x38C3",
+        "target_offset": 14531,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 64,
+        "raw": "c3 03",
+        "interpreted_address": "0x03C3",
+        "target_offset": 963,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 72,
+        "raw": "c3 06",
+        "interpreted_address": "0x06C3",
+        "target_offset": 1731,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 81,
+        "raw": "c9 29",
+        "interpreted_address": "0x29C9",
+        "target_offset": 10697,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 82,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 83,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 84,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 85,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 86,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 87,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 89,
+        "raw": "c9 29",
+        "interpreted_address": "0x29C9",
+        "target_offset": 10697,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 90,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 91,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 92,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 93,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 94,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 95,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 96,
+        "raw": "29 09",
+        "interpreted_address": "0x0929",
+        "target_offset": 2345,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 98,
+        "raw": "c9 29",
+        "interpreted_address": "0x29C9",
+        "target_offset": 10697,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 99,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 100,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 101,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 102,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 103,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 104,
+        "raw": "29 29",
+        "interpreted_address": "0x2929",
+        "target_offset": 10537,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 105,
+        "raw": "29 19",
+        "interpreted_address": "0x1929",
+        "target_offset": 6441,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 108,
+        "raw": "af 22",
+        "interpreted_address": "0x22AF",
+        "target_offset": 8879,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 109,
+        "raw": "22 05",
+        "interpreted_address": "0x0522",
+        "target_offset": 1314,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 110,
+        "raw": "05 20",
+        "interpreted_address": "0x2005",
+        "target_offset": 8197,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 116,
+        "raw": "d5 5f",
+        "interpreted_address": "0x5FD5",
+        "target_offset": null,
+        "note": "banked pointer candidate; active MBC bank required"
+      },
+      {
+        "offset": 117,
+        "raw": "5f 73",
+        "interpreted_address": "0x735F",
+        "target_offset": null,
+        "note": "banked pointer candidate; active MBC bank required"
+      },
+      {
+        "offset": 118,
+        "raw": "73 23",
+        "interpreted_address": "0x2373",
+        "target_offset": 9075,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 119,
+        "raw": "23 0b",
+        "interpreted_address": "0x0B23",
+        "target_offset": 2851,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 120,
+        "raw": "0b 79",
+        "interpreted_address": "0x790B",
+        "target_offset": null,
+        "note": "banked pointer candidate; active MBC bank required"
+      },
+      {
+        "offset": 122,
+        "raw": "b0 20",
+        "interpreted_address": "0x20B0",
+        "target_offset": 8368,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 128,
+        "raw": "f5 2a",
+        "interpreted_address": "0x2AF5",
+        "target_offset": 10997,
+        "note": "fixed-bank pointer candidate"
+      },
+      {
+        "offset": 129,
+        "raw": "2a 12",
+        "interpreted_address": "0x122A",
+        "target_offset": 4650,
+        "note": "fixed-bank pointer candidate"
+      }
+    ],
+    "tables": [
+      {
+        "offset": 245760,
+        "row_size": 1,
+        "rows": 256,
+        "fields_guess": "data_rng byte table"
+      },
+      {
+        "offset": 208768,
+        "row_size": 8,
+        "rows": 128,
+        "fields_guess": "item/action records; record[3]->CF23, record[4]->CF24, record[5]->CF25 in current phase05/S00 model"
+      },
+      {
+        "offset": 255552,
+        "row_size": 8,
+        "rows": 256,
+        "fields_guess": "custom text records / item names"
+      },
+      {
+        "offset": 123840,
+        "row_size": 1,
+        "rows": 32,
+        "fields_guess": "map0 object/preload stream candidate"
+      }
+    ]
+  }
+}
